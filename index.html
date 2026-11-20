@@ -1,0 +1,2925 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>SONMINSU ARCHIVE（ソンミンスアーカイブ）| K-POP全世代 着用アイテム検索</title>
+
+  <!-- Google Fonts: エディトリアルな英語セリフ体 + 視認性の高い日本語ゴシック -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind デザイントークン（韓国ファッション誌風オフホワイト・インク・シャンパン・ローズ） -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Inter"', '"Noto Sans JP"', 'system-ui', 'sans-serif'],
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+          },
+          colors: {
+            canvas: '#FAF9F7',
+            ink: '#111111',
+            subink: '#57534E',
+            champagne: '#C8A46B',
+            'champagne-dark': '#9E7B42',
+            'champagne-soft': '#FBF6EC',
+            rosegold: '#E11D48',
+            'rosegold-soft': '#FFF1F2',
+            hairline: '#E8E5DF',
+          },
+          keyframes: {
+            'fade-up': {
+              '0%': { opacity: '0', transform: 'translateY(8px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'pop-in': {
+              '0%': { opacity: '0', transform: 'scale(0.96)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+            'live-glow': {
+              '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+              '50%': { opacity: '0.45', transform: 'scale(1.35)' },
+            },
+          },
+          animation: {
+            'fade-up': 'fade-up 0.22s ease-out forwards',
+            'pop-in': 'pop-in 0.16s ease-out forwards',
+            'live-glow': 'live-glow 1.8s ease-in-out infinite',
+          },
+        },
+      },
+    };
+  </script>
+</head>
+
+<body class="bg-canvas text-ink font-sans antialiased overflow-x-hidden selection:bg-rosegold selection:text-white min-h-screen flex flex-col pb-24 md:pb-0">
+
+  <!-- ===================================================================== -->
+  <!-- 1. 最上部 PR表記バー（景品表示法・ステマ規制対応）                      -->
+  <!-- ===================================================================== -->
+  <div class="bg-ink text-white/90 text-[10px] sm:text-[11px] py-1.5 px-3 border-b border-white/10">
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-1.5 text-center leading-snug">
+      <span class="px-1.5 py-0.5 rounded bg-champagne text-ink font-extrabold text-[9px] tracking-wider shrink-0">PR</span>
+      <span>※当サイトはアフィリエイト広告（PR）を利用しています｜提携外ブランド公式直リンクも併記</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 2. スティッキーヘッダー（100%お客様専用・ロゴ5連タップで隠し同期設定） -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-hairline">
+    <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2.5">
+
+      <!-- ブランドロゴ（5回連続タップで隠し「自動公開・同期設定」モーダルを起動） -->
+      <button
+        type="button"
+        id="brandLogoTrigger"
+        class="flex items-center gap-2.5 text-left focus:outline-none select-none group min-w-0"
+        aria-label="SONMINSU ARCHIVE トップへ"
+      >
+        <div class="w-9 h-9 rounded-xl bg-ink text-white flex items-center justify-center shrink-0 font-serif font-bold text-lg shadow-2xs group-active:scale-95 transition-transform">
+          S
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="font-serif font-bold text-base sm:text-xl tracking-[0.14em] text-ink leading-none">
+              SONMINSU <span class="text-champagne">ARCHIVE</span>
+            </span>
+            <span id="headerCountPill" class="px-1.5 py-0.5 rounded bg-champagne-soft border border-champagne/40 text-champagne-dark text-[9px] font-extrabold tracking-wider">500+</span>
+          </div>
+          <p class="text-[9px] sm:text-[10px] text-subink tracking-wide truncate mt-0.5">
+            ソンミンスアーカイブ｜K-POP全世代お揃いアイテム検索
+          </p>
+        </div>
+      </button>
+
+      <!-- PC用 4タブナビゲーション（管理タブは一切なし） -->
+      <nav class="hidden md:flex items-center gap-1 bg-canvas p-1 rounded-full border border-hairline" aria-label="メインナビゲーション">
+        <button type="button" data-nav="search" class="pc-nav-btn px-4 py-1.5 rounded-full text-xs font-bold bg-ink text-white transition-all flex items-center gap-1.5">
+          <span class="ico-slot" data-ico="search" data-cls="w-3.5 h-3.5"></span>
+          <span>さがす</span>
+        </button>
+        <button type="button" data-nav="directory" class="pc-nav-btn px-4 py-1.5 rounded-full text-xs font-semibold text-subink hover:text-ink transition-all flex items-center gap-1.5">
+          <span class="ico-slot" data-ico="users" data-cls="w-3.5 h-3.5"></span>
+          <span>推し・世代</span>
+        </button>
+        <button type="button" data-nav="favorites" class="pc-nav-btn relative px-4 py-1.5 rounded-full text-xs font-semibold text-subink hover:text-ink transition-all flex items-center gap-1.5">
+          <span class="ico-slot" data-ico="heart" data-cls="w-3.5 h-3.5"></span>
+          <span>お気に入り</span>
+          <span id="pcFavBadge" class="hidden px-1.5 py-0.2 rounded-full bg-rosegold text-white text-[9px] font-extrabold">0</span>
+        </button>
+        <button type="button" data-nav="request" class="pc-nav-btn px-4 py-1.5 rounded-full text-xs font-semibold text-subink hover:text-ink transition-all flex items-center gap-1.5">
+          <span class="ico-slot" data-ico="sparkles" data-cls="w-3.5 h-3.5"></span>
+          <span>リクエスト</span>
+        </button>
+      </nav>
+
+      <!-- 右側：友達にシェアボタン -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button
+          type="button"
+          id="headerShareBtn"
+          class="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-ink hover:bg-rosegold text-white text-[11px] sm:text-xs font-bold shadow-2xs transition-colors active:scale-95"
+        >
+          <span class="ico-slot text-champagne" data-ico="share" data-cls="w-3.5 h-3.5"></span>
+          <span>友達にシェア</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 3. メインコンテンツ（4タブ切り替え・完全お客様専用ビュー）              -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 w-full max-w-7xl mx-auto">
+
+    <!-- =================================================================== -->
+    <!-- TAB 1: さがす（カタログメイン）                                      -->
+    <!-- =================================================================== -->
+    <section id="tabSearch" class="tab-panel animate-fade-up">
+
+      <!-- TODAY'S AUTO-CATCH 横スクロールティッカー -->
+      <div class="bg-white border-b border-hairline px-4 sm:px-6 lg:px-8 py-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-ink text-white text-[10px] font-extrabold tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-live-glow"></span>
+              AUTO LIVE
+            </span>
+            <h2 class="text-xs font-extrabold text-ink tracking-wide">TODAY'S AUTO-CATCH</h2>
+            <span id="sheetLiveTickerBadge" class="hidden px-2 py-0.5 rounded-full bg-rosegold-soft border border-rosegold/25 text-rosegold text-[10px] font-bold">
+              シート新着 <span id="sheetLiveTickerCount">0</span>件公開中
+            </span>
+          </div>
+          <span class="text-[10px] text-subink">最新着用・自動キャッチ更新</span>
+        </div>
+        <div id="autoCatchTicker" class="flex items-stretch gap-2.5 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"></div>
+      </div>
+
+      <!-- 3秒インスタント検索バー ＋ 最近チェックしたアイテム -->
+      <div class="bg-white border-b border-hairline px-4 sm:px-6 lg:px-8 pt-4 pb-4">
+        <div class="max-w-4xl mx-auto space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <label for="instantSearchInput" class="text-[11px] font-bold text-ink flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rosegold"></span>
+              管理番号（501・001）・グループ名・メンバー名・ブランド名で3秒検索
+            </label>
+            <span class="text-[10px] sm:text-[11px] font-bold text-champagne-dark">
+              全<strong id="catalogTotalCount" class="text-ink font-extrabold mx-0.5">500</strong>+件
+            </span>
+          </div>
+
+          <div class="relative" id="searchBoxContainer">
+            <span class="ico-slot text-subink absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" data-ico="search" data-cls="w-4 h-4"></span>
+            <input
+              type="text"
+              id="instantSearchInput"
+              autocomplete="off"
+              inputmode="search"
+              placeholder="番号（501, 001）・NewJeans・ウォンビン・Tamburins・バッグ..."
+              class="w-full pl-10 pr-10 py-3.5 text-xs sm:text-sm bg-canvas border border-hairline rounded-2xl focus:outline-none focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/5 transition-all placeholder:text-neutral-400"
+            />
+            <button
+              type="button"
+              id="clearSearchBtn"
+              class="hidden absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-neutral-200 hover:bg-neutral-300 text-neutral-700 flex items-center justify-center"
+              aria-label="検索文字をクリア"
+            >
+              <span class="ico-slot" data-ico="x" data-cls="w-3.5 h-3.5"></span>
+            </button>
+
+            <!-- リアルタイム・オートコンプリート候補 -->
+            <div id="autocompleteDropdown" class="hidden absolute left-0 right-0 top-[calc(100%+6px)] z-50 bg-white rounded-2xl shadow-2xl border border-hairline overflow-hidden max-h-80 overflow-y-auto"></div>
+          </div>
+
+          <!-- 最近チェックしたアイテムチップ -->
+          <div id="recentChipsRow" class="hidden flex items-center gap-1.5 overflow-x-auto pt-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"></div>
+        </div>
+      </div>
+
+      <!-- 多軸フィルターエリア -->
+      <div class="px-4 sm:px-6 lg:px-8 pt-4 pb-3 space-y-2.5">
+
+        <!-- 1. 4シーンピル -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <span class="text-[10px] font-bold text-subink shrink-0 mr-0.5">シーン:</span>
+          <button type="button" data-scene="all" class="scene-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-ink text-white transition-all">すべて</button>
+          <button type="button" data-scene="concert" class="scene-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-hairline text-subink hover:border-ink hover:text-ink transition-all">🎤 コンサート</button>
+          <button type="button" data-scene="airport" class="scene-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-hairline text-subink hover:border-ink hover:text-ink transition-all">✈️ 空港</button>
+          <button type="button" data-scene="drama" class="scene-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-hairline text-subink hover:border-ink hover:text-ink transition-all">🎬 ドラマ</button>
+          <button type="button" data-scene="variety" class="scene-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-hairline text-subink hover:border-ink hover:text-ink transition-all">📺 バラエティ</button>
+        </div>
+
+        <!-- 2. 8カテゴリ アイコンピル -->
+        <div id="categoryStrip" class="flex items-center gap-1.5 overflow-x-auto pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"></div>
+
+        <!-- 3. 過去2年間アーカイブフィルター（年ピル＋月セレクト）＆ 予算タブ -->
+        <div class="rounded-2xl bg-white border border-hairline p-3 flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
+          <!-- 年月 -->
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-[10px] font-bold text-champagne-dark mr-0.5 flex items-center gap-1">
+              <span class="ico-slot" data-ico="calendar" data-cls="w-3.5 h-3.5"></span>時期:
+            </span>
+            <button type="button" data-year="all" class="year-pill px-2.5 py-1 rounded-full text-[11px] font-bold bg-ink text-white transition-all">全期間</button>
+            <button type="button" data-year="2026" class="year-pill px-2.5 py-1 rounded-full text-[11px] font-semibold bg-canvas border border-hairline text-subink hover:border-ink transition-all">2026年</button>
+            <button type="button" data-year="2025" class="year-pill px-2.5 py-1 rounded-full text-[11px] font-semibold bg-canvas border border-hairline text-subink hover:border-ink transition-all">2025年</button>
+            <button type="button" data-year="2024" class="year-pill px-2.5 py-1 rounded-full text-[11px] font-semibold bg-canvas border border-hairline text-subink hover:border-ink transition-all">2024年</button>
+            <select id="monthSelect" aria-label="月で絞り込み" class="ml-0.5 text-[11px] font-bold bg-canvas border border-hairline rounded-xl px-2.5 py-1 text-ink focus:outline-none focus:border-ink cursor-pointer">
+              <option value="all">全月</option>
+              <option value="12">12月</option>
+              <option value="11">11月</option>
+              <option value="10">10月</option>
+              <option value="09">9月</option>
+              <option value="08">8月</option>
+              <option value="07">7月</option>
+              <option value="06">6月</option>
+              <option value="05">5月</option>
+              <option value="04">4月</option>
+              <option value="03">3月</option>
+              <option value="02">2月</option>
+              <option value="01">1月</option>
+            </select>
+          </div>
+
+          <!-- 予算タブ -->
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 lg:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <span class="text-[10px] font-bold text-subink shrink-0">予算:</span>
+            <button type="button" data-budget="all" class="budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold bg-ink text-white transition-all">すべて</button>
+            <button type="button" data-budget="3000" class="budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-canvas border border-hairline text-subink hover:border-ink transition-all">〜3,000円</button>
+            <button type="button" data-budget="5000" class="budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-canvas border border-hairline text-subink hover:border-ink transition-all">〜5,000円</button>
+            <button type="button" data-budget="10000" class="budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-canvas border border-hairline text-subink hover:border-ink transition-all">〜10,000円</button>
+            <button type="button" data-budget="high" class="budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-champagne-soft border border-champagne/40 text-champagne-dark hover:border-champagne transition-all">ハイブランド</button>
+          </div>
+        </div>
+
+        <!-- 4. 件数ステータス・適用中グループバッジ・並び替え -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-0.5">
+          <div class="flex items-center gap-1.5 flex-wrap text-xs">
+            <span id="filterStatusText" class="text-subink font-medium">表示中 <strong class="text-ink font-extrabold">24件</strong> / 該当 <strong class="text-ink font-extrabold">500件</strong></span>
+            <span id="activeGroupChip" class="hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-rosegold-soft border border-rosegold/30 text-rosegold text-[11px] font-bold">
+              <span id="activeGroupChipName"></span>
+              <button type="button" id="clearGroupChipBtn" class="font-extrabold hover:text-ink ml-0.5" aria-label="グループ解除">×</button>
+            </span>
+            <button type="button" id="resetFiltersBtn" class="hidden text-[11px] font-bold text-rosegold hover:underline">条件をすべて解除</button>
+          </div>
+
+          <select id="sortSelect" aria-label="並び替え" class="text-[11px] font-bold bg-white border border-hairline rounded-full px-3 py-1.5 text-ink focus:outline-none focus:border-ink cursor-pointer">
+            <option value="newest">新着・シート優先順</option>
+            <option value="code">管理番号順（No.001〜）</option>
+            <option value="price-asc">価格が安い順</option>
+            <option value="price-desc">価格が高い順</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- カタログ商品グリッド（スマホ2列 / タブレット3列 / PC4列） -->
+      <div class="px-4 sm:px-6 lg:px-8 pt-1 pb-12">
+        <div id="catalogGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5"></div>
+
+        <!-- 24件ページネーション -->
+        <div id="paginationWrap" class="hidden mt-8 flex flex-col sm:flex-row items-center justify-center gap-2.5">
+          <button type="button" id="loadMoreBtn" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-ink hover:bg-neutral-800 text-white text-xs font-extrabold shadow-2xs transition-all">
+            もっと見る +24件（残り <span id="remainingCount">476</span>件）
+          </button>
+          <button type="button" id="scrollTopBtn" class="w-full sm:w-auto px-5 py-3.5 rounded-full bg-white hover:bg-champagne-soft border border-hairline text-ink text-xs font-bold transition-colors">
+            上へ戻る ↑
+          </button>
+        </div>
+
+        <!-- 0件時表示 -->
+        <div id="emptyStateBox" class="hidden bg-white rounded-3xl border border-hairline p-10 text-center my-4">
+          <div class="w-12 h-12 rounded-2xl bg-champagne-soft text-champagne-dark flex items-center justify-center mx-auto mb-3">
+            <span class="ico-slot" data-ico="search" data-cls="w-6 h-6"></span>
+          </div>
+          <h3 class="text-sm sm:text-base font-extrabold text-ink">条件に一致するアイテムが見つかりませんでした</h3>
+          <p class="text-xs text-subink mt-1">条件を解除するか、リクエストから推し着用アイテムの特定を依頼できます。</p>
+          <div class="mt-4 flex flex-wrap justify-center gap-2">
+            <button type="button" id="emptyResetBtn" class="px-5 py-2.5 rounded-full bg-ink text-white text-xs font-bold">条件を解除</button>
+            <button type="button" id="emptyGoRequestBtn" class="px-5 py-2.5 rounded-full bg-rosegold-soft border border-rosegold/30 text-rosegold text-xs font-bold">特定リクエストへ</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 2: 推し・世代（世代・性別・グループ別ディレクトリ）               -->
+    <!-- =================================================================== -->
+    <section id="tabDirectory" class="tab-panel hidden animate-fade-up px-4 sm:px-6 lg:px-8 py-6 pb-12 space-y-6">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-champagne-dark">GENERATION &amp; GROUP DIRECTORY</span>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-ink mt-0.5">推し・世代から探す</h2>
+          <p class="text-xs text-subink mt-1">グループやソロアーティストをタップすると、愛用アイテム一覧へジャンプします。</p>
+        </div>
+
+        <div class="flex items-center bg-white border border-hairline rounded-full p-1">
+          <button type="button" data-dir-gender="all" class="dir-gender-btn px-3 py-1.5 rounded-full text-xs font-bold bg-ink text-white transition-all">ALL</button>
+          <button type="button" data-dir-gender="boys" class="dir-gender-btn px-3 py-1.5 rounded-full text-xs font-semibold text-subink hover:text-ink transition-all">BOYS</button>
+          <button type="button" data-dir-gender="girls" class="dir-gender-btn px-3 py-1.5 rounded-full text-xs font-semibold text-subink hover:text-ink transition-all">GIRLS</button>
+          <button type="button" data-dir-gender="solo" class="dir-gender-btn px-3 py-1.5 rounded-full text-xs font-semibold text-subink hover:text-ink transition-all">SOLO</button>
+        </div>
+      </div>
+
+      <div id="directoryList" class="space-y-6"></div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 3: お気に入り（定価 vs お試し・代替 節約計算＋メモコピー＋シェア） -->
+    <!-- =================================================================== -->
+    <section id="tabFavorites" class="tab-panel hidden animate-fade-up px-4 sm:px-6 lg:px-8 py-6 pb-12">
+      <div class="flex flex-wrap items-end justify-between gap-3 mb-5">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-rosegold">MY WISHLIST</span>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-ink mt-0.5">お気に入り＆節約メモ</h2>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" id="favShareBtn" class="hidden px-4 py-2.5 rounded-full bg-rosegold hover:opacity-95 text-white text-xs font-bold inline-flex items-center gap-1.5 transition-opacity shadow-2xs">
+            <span class="ico-slot" data-ico="share" data-cls="w-3.5 h-3.5"></span>
+            <span>お気に入りをシェア</span>
+          </button>
+          <button type="button" id="favMemoCopyBtn" class="hidden px-4 py-2.5 rounded-full bg-ink hover:bg-neutral-800 text-white text-xs font-bold inline-flex items-center gap-1.5 transition-colors">
+            <span class="ico-slot text-champagne" data-ico="copy" data-cls="w-3.5 h-3.5"></span>
+            <span>買い物メモをコピー</span>
+          </button>
+          <button type="button" id="favClearAllBtn" class="hidden text-xs text-subink hover:text-ink underline px-1">全解除</button>
+        </div>
+      </div>
+
+      <!-- 定価 vs お試し・代替 節約計算カード -->
+      <div id="favSavingsCard" class="hidden bg-ink text-white rounded-3xl p-5 sm:p-6 mb-6 shadow-md">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+          <div>
+            <div class="text-[10px] uppercase tracking-widest text-white/60">保存中のアイテム</div>
+            <div class="font-serif text-3xl sm:text-4xl font-bold mt-0.5"><span id="favCountNum">0</span><span class="font-sans text-xs font-normal text-white/70 ml-1">点</span></div>
+          </div>
+          <div class="sm:border-l sm:border-white/15 sm:pl-5">
+            <div class="text-[10px] text-white/60">通常定価の合計</div>
+            <div id="favRetailSum" class="text-sm text-white/60 line-through">¥0</div>
+            <div class="text-[10px] text-champagne font-bold mt-1">お試し・代替活用時の合計</div>
+            <div id="favTrialSum" class="font-serif text-2xl sm:text-3xl font-bold text-white">¥0</div>
+          </div>
+          <div class="rounded-2xl bg-white/10 border border-champagne/40 p-3.5 text-center sm:text-right">
+            <div class="text-[10px] text-champagne font-semibold">節約できる金額</div>
+            <div id="favSavedAmount" class="font-serif text-2xl font-bold text-white mt-0.5">¥0 OFF</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="favoritesGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5"></div>
+
+      <div id="favoritesEmpty" class="hidden bg-white rounded-3xl border border-hairline p-10 text-center">
+        <div class="w-12 h-12 rounded-2xl bg-rosegold-soft text-rosegold flex items-center justify-center mx-auto mb-3">
+          <span class="ico-slot" data-ico="heart" data-cls="w-6 h-6"></span>
+        </div>
+        <h3 class="text-sm sm:text-base font-extrabold text-ink">お気に入りはまだ登録されていません</h3>
+        <p class="text-xs text-subink mt-1">気になるアイテムのハートを押すと、定価とお試し・代替の節約額を自動で計算できます。</p>
+        <button type="button" id="favBackToSearchBtn" class="mt-4 px-5 py-2.5 rounded-full bg-ink text-white text-xs font-bold">カタログを見る</button>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 4: リクエスト（ファン特定依頼フォーム・localStorage保存）         -->
+    <!-- =================================================================== -->
+    <section id="tabRequest" class="tab-panel hidden animate-fade-up px-4 sm:px-6 lg:px-8 py-6 pb-12 max-w-2xl mx-auto space-y-6">
+      <div>
+        <span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-champagne-dark">FAN REQUEST</span>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-ink mt-0.5">推しの着用アイテム 特定リクエスト</h2>
+        <p class="text-xs sm:text-sm text-subink mt-1 leading-relaxed">
+          コンサート・空港・ドラマ・バラエティで見かけた「推しとお揃いにしたいアイテム」を送信してください。特定でき次第、自動公開リストへ追加されます。
+        </p>
+      </div>
+
+      <form id="fanRequestForm" class="bg-white rounded-3xl p-5 sm:p-6 border border-hairline shadow-2xs space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div>
+            <label for="reqGroup" class="block text-xs font-bold text-ink mb-1.5">グループ・メンバー名 <span class="text-rosegold">*</span></label>
+            <input type="text" id="reqGroup" required placeholder="例：RIIZE ウォンビン / IVE レイ" class="w-full px-3.5 py-2.5 text-sm bg-canvas border border-hairline rounded-xl focus:outline-none focus:border-ink focus:bg-white" />
+          </div>
+          <div>
+            <label for="reqMonth" class="block text-xs font-bold text-ink mb-1.5">着用時期（任意）</label>
+            <input type="month" id="reqMonth" value="2026-11" class="w-full px-3.5 py-2.5 text-sm bg-canvas border border-hairline rounded-xl focus:outline-none focus:border-ink focus:bg-white" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div>
+            <label for="reqScene" class="block text-xs font-bold text-ink mb-1.5">着用シーン <span class="text-rosegold">*</span></label>
+            <select id="reqScene" class="w-full px-3.5 py-2.5 text-sm bg-canvas border border-hairline rounded-xl focus:outline-none focus:border-ink">
+              <option value="concert">🎤 コンサート</option>
+              <option value="airport">✈️ 空港</option>
+              <option value="drama">🎬 ドラマ</option>
+              <option value="variety">📺 バラエティ</option>
+            </select>
+          </div>
+          <div>
+            <label for="reqCategory" class="block text-xs font-bold text-ink mb-1.5">カテゴリ <span class="text-rosegold">*</span></label>
+            <select id="reqCategory" class="w-full px-3.5 py-2.5 text-sm bg-canvas border border-hairline rounded-xl focus:outline-none focus:border-ink">
+              <option value="perfume">香水</option>
+              <option value="cosmetics">コスメ</option>
+              <option value="case">スマホケース</option>
+              <option value="hat">帽子</option>
+              <option value="accessory">アクセ</option>
+              <option value="bag">バッグ</option>
+              <option value="shoes">靴</option>
+              <option value="wear">ウェア</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="reqSnsUrl" class="block text-xs font-bold text-ink mb-1.5">公式SNS投稿URL（任意）</label>
+          <input type="url" id="reqSnsUrl" placeholder="https://www.instagram.com/p/..." class="w-full px-3.5 py-2.5 text-sm bg-canvas border border-hairline rounded-xl focus:outline-none focus:border-ink focus:bg-white" />
+        </div>
+
+        <div>
+          <label for="reqMemo" class="block text-xs font-bold text-ink mb-1.5">着用シーン・アイテムの特徴 <span class="text-rosegold">*</span></label>
+          <textarea id="reqMemo" rows="3" required placeholder="例：昨日の仁川空港出国で肩掛けしていたシルバーのミニバッグが知りたいです！" class="w-full px-3.5 py-2.5 text-sm bg-canvas border border-hairline rounded-xl focus:outline-none focus:border-ink focus:bg-white"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-2xl bg-ink hover:bg-rosegold text-white text-sm font-bold transition-colors shadow-2xs flex items-center justify-center gap-2">
+          <span class="ico-slot text-champagne" data-ico="send" data-cls="w-4 h-4"></span>
+          <span>特定リクエストを送信する</span>
+        </button>
+      </form>
+
+      <div class="bg-white rounded-3xl p-5 border border-hairline space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-subink">最近のリクエスト受付状況</h3>
+          <span class="text-[10px] text-subink">端末内ローカル保存対応</span>
+        </div>
+        <div id="fanRequestList" class="space-y-2.5"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 4. フッター（安心・権利ポリシー＆シェア導線）                           -->
+  <!-- ===================================================================== -->
+  <footer class="bg-white border-t border-hairline mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center space-y-3">
+      <div class="font-serif text-lg font-bold tracking-[0.14em] text-ink">
+        SONMINSU <span class="text-champagne">ARCHIVE</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs">
+        <button type="button" id="footerPolicyBtn" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-canvas hover:bg-champagne-soft border border-hairline font-bold text-ink transition-colors">
+          <span class="ico-slot text-champagne-dark" data-ico="shield" data-cls="w-3.5 h-3.5"></span>
+          <span>安心・権利ポリシー</span>
+        </button>
+        <button type="button" id="footerShareBtn" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink hover:bg-rosegold text-white font-bold transition-colors">
+          <span class="ico-slot text-champagne" data-ico="share" data-cls="w-3.5 h-3.5"></span>
+          <span>友達・家族にシェア</span>
+        </button>
+      </div>
+      <p class="text-[10px] text-subink leading-relaxed">
+        ※著作権・意匠権・肖像権に配慮し、汎用ファッションイラストおよび公式SNSリンク参照のみを掲載しています。<br />
+        &copy; 2026 SONMINSU ARCHIVE. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- 5. モバイル専用 4タブ固定ボトムナビゲーション                           -->
+  <!-- ===================================================================== -->
+  <nav class="md:hidden fixed bottom-3 inset-x-3 z-40 bg-white/95 backdrop-blur-md border border-hairline rounded-2xl shadow-[0_8px_28px_rgba(0,0,0,0.08)]" aria-label="モバイルボトムナビ">
+    <div class="grid grid-cols-4 h-16 px-1">
+      <button type="button" data-nav="search" class="sp-nav-btn flex flex-col items-center justify-center gap-0.5 text-ink font-bold transition-colors">
+        <span class="ico-slot" data-ico="search" data-cls="w-5 h-5"></span>
+        <span class="text-[10px]">さがす</span>
+      </button>
+      <button type="button" data-nav="directory" class="sp-nav-btn flex flex-col items-center justify-center gap-0.5 text-subink hover:text-ink font-medium transition-colors">
+        <span class="ico-slot" data-ico="users" data-cls="w-5 h-5"></span>
+        <span class="text-[10px]">推し・世代</span>
+      </button>
+      <button type="button" data-nav="favorites" class="sp-nav-btn relative flex flex-col items-center justify-center gap-0.5 text-subink hover:text-ink font-medium transition-colors">
+        <span class="relative inline-flex">
+          <span class="ico-slot" data-ico="heart" data-cls="w-5 h-5"></span>
+          <span id="spFavBadge" class="hidden absolute -top-1 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-rosegold text-white text-[9px] font-extrabold flex items-center justify-center">0</span>
+        </span>
+        <span class="text-[10px]">お気に入り</span>
+      </button>
+      <button type="button" data-nav="request" class="sp-nav-btn flex flex-col items-center justify-center gap-0.5 text-subink hover:text-ink font-medium transition-colors">
+        <span class="ico-slot" data-ico="sparkles" data-cls="w-5 h-5"></span>
+        <span class="text-[10px]">リクエスト</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===================================================================== -->
+  <!-- 6. 高転換デュアルリンク・アイテム詳細モーダル（#item-501 対応）          -->
+  <!-- ===================================================================== -->
+  <div id="itemDetailModal" class="fixed inset-0 z-50 hidden items-end sm:items-center justify-center sm:p-4" role="dialog" aria-modal="true">
+    <div id="itemDetailBackdrop" class="absolute inset-0 bg-ink/65 backdrop-blur-xs"></div>
+
+    <div class="relative z-10 w-full sm:max-w-2xl max-h-[93vh] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-fade-up">
+      <!-- トップバー -->
+      <div class="px-4 py-3 bg-ink text-white flex items-center justify-between gap-2 shrink-0">
+        <div class="flex items-center gap-1.5 min-w-0 flex-wrap">
+          <span id="mCode" class="px-2 py-0.5 rounded bg-champagne text-ink font-mono font-extrabold text-[11px]">No.001</span>
+          <span id="mSourceBadge" class="hidden px-2 py-0.5 rounded-full bg-rosegold text-white text-[9px] font-extrabold">AUTO LIVE</span>
+          <span id="mSceneBadge" class="px-2 py-0.5 rounded-full bg-white/15 text-champagne text-[10px] font-bold">✈️ 空港</span>
+          <span id="mDateBadge" class="font-mono text-[10px] text-white/75">2026年11月</span>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button type="button" id="mFavBtn" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors" aria-label="お気に入り切替">
+            <span class="ico-slot" data-ico="heart" data-cls="w-4 h-4"></span>
+          </button>
+          <button type="button" id="mCloseBtn" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors" aria-label="閉じる">
+            <span class="ico-slot" data-ico="x" data-cls="w-4 h-4"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- スクロール本体 -->
+      <div id="mScrollBody" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
+
+        <!-- タブ切替：アイテムイラスト / 公式SNS着用シーン -->
+        <div>
+          <div class="grid grid-cols-2 p-1 bg-canvas rounded-2xl border border-hairline mb-3">
+            <button type="button" id="mTabArt" class="py-2 rounded-xl text-xs font-bold bg-white text-ink shadow-2xs transition-all">アイテムイラスト</button>
+            <button type="button" id="mTabSns" class="py-2 rounded-xl text-xs font-semibold text-subink hover:text-ink transition-all">公式SNS着用シーン</button>
+          </div>
+
+          <div id="mPanelArt" class="space-y-1.5">
+            <div class="relative aspect-[16/10] rounded-2xl overflow-hidden bg-canvas border border-hairline">
+              <div id="mArtSlot" class="w-full h-full"></div>
+            </div>
+            <p class="text-[10px] text-subink text-center">権利リスクゼロの汎用ファッションシルエット（カラーテーマ連動）</p>
+          </div>
+
+          <div id="mPanelSns" class="hidden rounded-2xl bg-champagne-soft border border-champagne/35 p-4 space-y-3">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <span class="px-2.5 py-1 rounded-full bg-ink text-white text-[10px] font-bold">公式SNS着用シーン参照</span>
+              <span class="text-[10px] font-semibold text-champagne-dark">著作権・肖像権配慮</span>
+            </div>
+            <div id="mSnsSceneNote" class="rounded-xl bg-white border border-hairline p-3.5 text-xs text-ink leading-relaxed"></div>
+            <a id="mSnsLinkBtn" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-ink hover:bg-neutral-800 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors">
+              <span class="ico-slot text-champagne" data-ico="external" data-cls="w-3.5 h-3.5"></span>
+              <span>公式SNS投稿で着用・紹介シーンを見る</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- スペック表 ＆ 1タップ色番・型番コピー -->
+        <div class="rounded-2xl border border-hairline overflow-hidden bg-white">
+          <div class="px-4 py-2.5 bg-canvas border-b border-hairline flex items-center justify-between gap-2 flex-wrap">
+            <span id="mArtistLine" class="text-xs sm:text-sm font-extrabold text-ink"></span>
+            <span id="mCategoryBadge" class="px-2.5 py-0.5 rounded-full bg-white border border-hairline text-ink text-[10px] font-bold"></span>
+          </div>
+
+          <div class="p-4 space-y-3">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div id="mBrand" class="text-[11px] font-extrabold uppercase tracking-[0.14em] text-champagne-dark"></div>
+                <h3 id="mName" class="text-base sm:text-lg font-extrabold text-ink mt-0.5 leading-snug"></h3>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="text-[10px] text-subink">参考定価</div>
+                <div id="mPrice" class="font-serif text-2xl font-bold text-ink leading-none mt-0.5"></div>
+                <div id="mTrialPriceLabel" class="hidden text-[10px] font-bold text-rosegold mt-1"></div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-canvas border border-hairline text-xs text-ink leading-relaxed">
+              <span class="text-[10px] font-bold text-champagne-dark block mb-0.5">着用・紹介メモ</span>
+              <span id="mSceneNote"></span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-champagne-soft border border-champagne/35 flex items-center justify-between gap-2.5">
+              <div class="min-w-0">
+                <div class="text-[10px] font-bold text-champagne-dark">色番・型番・サイズ（買い間違い防止）</div>
+                <div id="mVariant" class="text-xs sm:text-sm font-bold text-ink mt-0.5 break-words"></div>
+              </div>
+              <button type="button" id="mCopyVariantBtn" class="shrink-0 px-3 py-2 rounded-xl bg-ink hover:bg-rosegold text-white text-[11px] font-bold inline-flex items-center gap-1 transition-colors">
+                <span class="ico-slot" data-ico="copy" data-cls="w-3.5 h-3.5"></span>
+                <span>色番・型番コピー</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- プライマリCTA（pr_sub / pr_ec → PRバッジ、direct_official → 公式直リンク（提携外）） -->
+        <div id="mPrimaryCtaWrap" class="space-y-1.5">
+          <div class="flex items-center justify-between text-[11px]">
+            <span id="mPrimarySectionHeading" class="font-extrabold text-ink">メイン購入・詳細リンク</span>
+            <span id="mLiveModeHint" class="text-[10px] text-subink"></span>
+          </div>
+          <button type="button" id="mPrimaryCtaBtn" class="w-full p-4 rounded-2xl text-left flex items-center justify-between gap-3 transition-all active:scale-[0.99] shadow-sm">
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span id="mPrimaryBadge" class="px-2 py-0.5 rounded text-[9px] font-extrabold">PR</span>
+                <span id="mPrimaryLabel" class="text-xs sm:text-sm font-extrabold truncate">ショップで見る</span>
+              </div>
+              <div id="mPrimarySub" class="text-[10px] opacity-75 mt-0.5 truncate"></div>
+            </div>
+            <span class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center shrink-0">
+              <span class="ico-slot" data-ico="external" data-cls="w-4 h-4"></span>
+            </span>
+          </button>
+        </div>
+
+        <!-- セカンダリ マルチショップPRボタン（Qoo10 PR / 楽天市場 PR / Amazon PR） -->
+        <div id="mMultiShopWrap" class="space-y-2">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="font-extrabold text-ink flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-rosegold text-white text-[9px] font-extrabold">PR</span>
+              主要ECショップで探す
+            </span>
+            <span class="text-[10px] text-subink">正規・公式取扱店を優先案内</span>
+          </div>
+          <div id="mMultiShopGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-2"></div>
+        </div>
+
+        <!-- 予算1万円以下で再現・お試し（PR）カード -->
+        <div id="mAltCard" class="hidden rounded-2xl bg-champagne-soft border border-champagne/40 p-4 space-y-2.5">
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-ink text-champagne text-[10px] font-extrabold">
+              予算1万円以下で再現・お試し PR
+            </span>
+            <span id="mAltPrice" class="font-serif text-xl font-bold text-ink"></span>
+          </div>
+          <div id="mAltName" class="text-xs sm:text-sm font-extrabold text-ink"></div>
+          <button type="button" id="mAltBtn" class="w-full py-2.5 px-4 rounded-xl bg-champagne hover:bg-champagne-dark text-white text-xs font-extrabold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
+            <span>お試し・再現アイテムを見る（PR）</span>
+            <span class="ico-slot" data-ico="external" data-cls="w-3.5 h-3.5"></span>
+          </button>
+        </div>
+
+        <!-- 個別アイテムシェアバー（Web Share API / LINE / X / 直リンクコピー） -->
+        <div class="rounded-2xl bg-canvas border border-hairline p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-extrabold text-ink flex items-center gap-1.5">
+              <span class="ico-slot text-rosegold" data-ico="share" data-cls="w-3.5 h-3.5"></span>
+              このアイテムをシェア
+            </span>
+            <span id="mDeepHash" class="font-mono text-[10px] text-subink">#item-001</span>
+          </div>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" id="mShareNative" class="py-2 px-1 rounded-xl bg-ink hover:bg-neutral-800 text-white text-[10px] font-bold flex flex-col items-center gap-0.5">
+              <span class="ico-slot text-champagne" data-ico="smartphone" data-cls="w-4 h-4"></span>
+              <span>スマホ共有</span>
+            </button>
+            <button type="button" id="mShareLine" class="py-2 px-1 rounded-xl bg-[#06C755] hover:opacity-95 text-white text-[10px] font-bold flex flex-col items-center gap-0.5">
+              <span class="ico-slot" data-ico="message" data-cls="w-4 h-4"></span>
+              <span>LINE</span>
+            </button>
+            <button type="button" id="mShareX" class="py-2 px-1 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white text-[10px] font-bold flex flex-col items-center gap-0.5">
+              <span class="ico-slot" data-ico="xlogo" data-cls="w-3.5 h-3.5"></span>
+              <span>Xポスト</span>
+            </button>
+            <button type="button" id="mShareCopy" class="py-2 px-1 rounded-xl bg-white hover:bg-champagne-soft border border-hairline text-ink text-[10px] font-bold flex flex-col items-center gap-0.5">
+              <span class="ico-slot" data-ico="copy" data-cls="w-4 h-4"></span>
+              <span>URLコピー</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 7. 友達・家族シェアモーダル（Web Share / LINE / X / 3種文面 / QRカード） -->
+  <!-- ===================================================================== -->
+  <div id="shareModal" class="fixed inset-0 z-50 hidden items-end sm:items-center justify-center sm:p-4" role="dialog" aria-modal="true">
+    <div id="shareBackdrop" class="absolute inset-0 bg-ink/65 backdrop-blur-xs"></div>
+
+    <div class="relative z-10 w-full sm:max-w-lg max-h-[92vh] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-fade-up">
+      <div class="px-5 py-4 bg-ink text-white flex items-center justify-between gap-2 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-rosegold text-white flex items-center justify-center">
+            <span class="ico-slot" data-ico="share" data-cls="w-4 h-4"></span>
+          </span>
+          <div>
+            <h3 id="shareModalHeading" class="text-sm sm:text-base font-extrabold">友達・家族にシェア</h3>
+            <p class="text-[10px] text-white/65">LINE・X・スマホ共有・DMコピペに1タップ対応</p>
+          </div>
+        </div>
+        <button type="button" id="closeShareBtn" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center" aria-label="閉じる">
+          <span class="ico-slot" data-ico="x" data-cls="w-4 h-4"></span>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4">
+        <!-- ビジュアルQR風シェアカード -->
+        <div class="rounded-2xl bg-gradient-to-br from-canvas via-white to-champagne-soft border border-hairline p-4 flex items-center gap-4">
+          <div id="shareQrSlot" class="w-24 h-24 rounded-xl bg-white border border-hairline p-1.5 shrink-0 shadow-2xs"></div>
+          <div class="min-w-0 flex-1">
+            <div class="font-serif text-base font-bold tracking-[0.12em] text-ink">SONMINSU <span class="text-champagne">ARCHIVE</span></div>
+            <p id="shareCardDesc" class="text-[11px] text-subink mt-1 leading-snug">K-POP全世代お揃いアイテム500選＋最新スプレッドシート自動公開カタログ</p>
+            <div class="mt-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-ink text-champagne text-[9px] font-bold">
+              <span>#KPOP衣装 #ソンミンス</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3大共有ボタン -->
+        <div class="grid grid-cols-3 gap-2.5">
+          <button type="button" id="shareNativeBtn" class="py-3 px-2 rounded-2xl bg-ink hover:bg-neutral-800 text-white flex flex-col items-center gap-1 transition-colors">
+            <span class="ico-slot text-champagne" data-ico="smartphone" data-cls="w-5 h-5"></span>
+            <span class="text-[11px] font-bold">スマホ共有</span>
+          </button>
+          <button type="button" id="shareLineBtn" class="py-3 px-2 rounded-2xl bg-[#06C755] hover:opacity-95 text-white flex flex-col items-center gap-1 transition-opacity">
+            <span class="ico-slot" data-ico="message" data-cls="w-5 h-5"></span>
+            <span class="text-[11px] font-bold">LINEで送る</span>
+          </button>
+          <button type="button" id="shareXBtn" class="py-3 px-2 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-white flex flex-col items-center gap-1 transition-colors">
+            <span class="ico-slot" data-ico="xlogo" data-cls="w-4 h-4"></span>
+            <span class="text-[11px] font-bold">Xでポスト</span>
+          </button>
+        </div>
+
+        <!-- 3プリセット紹介文コピー -->
+        <div class="space-y-2">
+          <div class="grid grid-cols-3 gap-1.5 bg-canvas p-1 rounded-2xl border border-hairline">
+            <button type="button" data-preset="friend" class="share-preset-btn py-2 px-1.5 rounded-xl text-[11px] font-bold bg-ink text-white transition-all">① 推し活友達へ</button>
+            <button type="button" data-preset="family" class="share-preset-btn py-2 px-1.5 rounded-xl text-[11px] font-semibold text-subink hover:text-ink transition-all">② 家族・相談用</button>
+            <button type="button" data-preset="url" class="share-preset-btn py-2 px-1.5 rounded-xl text-[11px] font-semibold text-subink hover:text-ink transition-all">③ URLのみ</button>
+          </div>
+          <textarea id="shareTextOutput" rows="4" readonly class="w-full p-3 text-xs bg-canvas border border-hairline rounded-2xl text-ink leading-relaxed focus:outline-none"></textarea>
+          <button type="button" id="copyShareBtn" class="w-full py-3 rounded-2xl bg-champagne hover:bg-champagne-dark text-white text-xs sm:text-sm font-extrabold flex items-center justify-center gap-1.5 transition-colors">
+            <span class="ico-slot" data-ico="copy" data-cls="w-4 h-4"></span>
+            <span>紹介文＋URLをコピー</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 8. 安心・権利ポリシーモーダル                                           -->
+  <!-- ===================================================================== -->
+  <div id="policyModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div id="policyBackdrop" class="absolute inset-0 bg-ink/65 backdrop-blur-xs"></div>
+    <div class="relative z-10 w-full max-w-md max-h-[85vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-pop-in">
+      <div class="px-5 py-4 bg-ink text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="ico-slot text-champagne" data-ico="shield" data-cls="w-5 h-5"></span>
+          <h3 class="text-sm sm:text-base font-extrabold">安心・権利ポリシー</h3>
+        </div>
+        <button type="button" id="closePolicyBtn" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center">
+          <span class="ico-slot" data-ico="x" data-cls="w-4 h-4"></span>
+        </button>
+      </div>
+      <div class="p-5 overflow-y-auto space-y-3 text-xs text-subink leading-relaxed">
+        <div class="p-3.5 rounded-2xl bg-canvas border border-hairline">
+          <h4 class="font-extrabold text-ink mb-1">1. 著作権・意匠権・肖像権の遵守</h4>
+          <p>当サイトは芸能人写真の無断保存・無断転載や、特定ブランドのロゴ・固有意匠を模倣したイラストを一切掲載しません。全8カテゴリの汎用ファッションシルエットイラストと、Instagram / X / YouTube / Weverse等の公式投稿参照リンクのみを掲載しています。</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-canvas border border-hairline">
+          <h4 class="font-extrabold text-ink mb-1">2. PR表記（景品表示法ステマ規制対応）</h4>
+          <p>当サイトはアフィリエイト広告（PR）を利用しています。提携ショップには<strong>「PR」</strong>バッジを、提携外のブランド公式オンラインストアやZOZOTOWN等には<strong>「公式直リンク（提携外）」</strong>と明確に区別して表記しています。</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-canvas border border-hairline">
+          <h4 class="font-extrabold text-ink mb-1">3. 薬機法・表記の正確性</h4>
+          <p>コスメ・香水については色番・香り系統・容量等の客観的な特定情報のみを記載し、誇大な効能表現は行いません。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 9. 隠し「Googleスプレッドシート自動公開＆同期設定」モーダル（5連タップ） -->
+  <!-- ===================================================================== -->
+  <div id="hiddenSyncModal" class="fixed inset-0 z-[60] hidden items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true">
+    <div id="hiddenSyncBackdrop" class="absolute inset-0 bg-ink/75 backdrop-blur-sm"></div>
+
+    <div class="relative z-10 w-full max-w-xl max-h-[92vh] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-pop-in">
+      <div class="px-5 py-4 bg-ink text-white flex items-center justify-between gap-2 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-champagne text-ink flex items-center justify-center">
+            <span class="ico-slot" data-ico="sync" data-cls="w-4 h-4"></span>
+          </span>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold">Googleシート自動公開・同期設定</h3>
+            <p class="text-[10px] text-white/65">Live CSV Auto-Publish Engine（管理者専用）</p>
+          </div>
+        </div>
+        <button type="button" id="closeHiddenSyncBtn" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center">
+          <span class="ico-slot" data-ico="x" data-cls="w-4 h-4"></span>
+        </button>
+      </div>
+
+      <div class="p-5 overflow-y-auto space-y-4 text-xs">
+
+        <!-- リアルタイム接続診断ステータスボックス -->
+        <div id="syncDiagBox" class="p-4 rounded-2xl border space-y-2">
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <span id="syncDiagTitle" class="font-extrabold text-sm">同期ステータスを確認中...</span>
+            <span id="syncDiagTime" class="font-mono text-[10px] opacity-75"></span>
+          </div>
+          <p id="syncDiagDetail" class="text-[11px] leading-relaxed"></p>
+          <div id="syncDiagCodes" class="hidden flex flex-wrap gap-1 pt-1"></div>
+        </div>
+
+        <!-- 直接アクション：今すぐ再同期 ＆ Googleシートを開く -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button type="button" id="syncNowBtn" class="py-3 px-4 rounded-2xl bg-ink hover:bg-neutral-800 text-white font-extrabold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
+            <span class="ico-slot text-champagne" data-ico="sync" data-cls="w-4 h-4"></span>
+            <span>今すぐ再同期</span>
+          </button>
+          <a id="openSheetDirectLink" href="https://docs.google.com/spreadsheets/d/1I7-UPqrigl5bgWSadrV5bJrUycOlXjotYG4H_d2sQBo/edit" target="_blank" rel="noopener noreferrer" class="py-3 px-4 rounded-2xl bg-champagne-soft hover:bg-champagne hover:text-white border border-champagne/40 text-champagne-dark font-extrabold flex items-center justify-center gap-1.5 transition-colors">
+            <span class="ico-slot" data-ico="external" data-cls="w-4 h-4"></span>
+            <span>接続中のGoogleシートを開く</span>
+          </a>
+        </div>
+
+        <!-- フィードURL編集＆自動公開トグル -->
+        <div class="p-4 rounded-2xl bg-canvas border border-hairline space-y-3">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <div class="font-extrabold text-ink">Googleシート自動公開 (autoPublish)</div>
+              <p class="text-[10px] text-subink mt-0.5">ページ起動時にスプレッドシートの公開済み行を自動取得してカタログ先頭へ公開します。</p>
+            </div>
+            <label class="inline-flex items-center cursor-pointer shrink-0">
+              <input type="checkbox" id="setAutoPublishToggle" class="sr-only peer" />
+              <span class="w-10 h-5 bg-neutral-300 rounded-full relative transition-colors peer-checked:bg-ink after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:bg-white after:rounded-full after:transition-transform peer-checked:after:translate-x-5"></span>
+            </label>
+          </div>
+
+          <div class="flex items-center justify-between gap-3 pt-2 border-t border-hairline">
+            <div>
+              <div class="font-extrabold text-ink">60秒ごとの自動バックグラウンド同期</div>
+              <p class="text-[10px] text-subink mt-0.5">画面を開いたままでも60秒毎に最新CSVをチェックして自動反映します。</p>
+            </div>
+            <label class="inline-flex items-center cursor-pointer shrink-0">
+              <input type="checkbox" id="setRefresh60Toggle" class="sr-only peer" />
+              <span class="w-10 h-5 bg-neutral-300 rounded-full relative transition-colors peer-checked:bg-ink after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-4 after:h-4 after:bg-white after:rounded-full after:transition-transform peer-checked:after:translate-x-5"></span>
+            </label>
+          </div>
+
+          <div class="pt-2 border-t border-hairline space-y-1.5">
+            <div class="flex items-center justify-between">
+              <label for="setFeedUrlInput" class="font-bold text-ink">接続CSVフィードURL (feedUrl)</label>
+              <button type="button" id="restoreDefaultFeedBtn" class="text-[10px] font-bold text-champagne-dark hover:underline">既定シートURLに戻す</button>
+            </div>
+            <input type="url" id="setFeedUrlInput" class="w-full px-3 py-2 text-[11px] font-mono bg-white border border-hairline rounded-xl focus:outline-none focus:border-ink" />
+          </div>
+
+          <button type="button" id="saveFeedSettingsBtn" class="w-full py-2.5 rounded-xl bg-ink hover:bg-neutral-800 text-white font-bold transition-colors">
+            設定を保存して再同期する
+          </button>
+        </div>
+
+        <!-- 本番リンク遷移モード (liveMode) -->
+        <div class="p-4 rounded-2xl bg-canvas border border-hairline flex items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-ink">本番外部リンク遷移モード (liveMode)</span>
+              <span id="liveModeStatusBadge" class="px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-amber-100 text-amber-800">OFF（デモ）</span>
+            </div>
+            <p class="text-[10px] text-subink mt-1 leading-relaxed">
+              <strong>OFF（既定）：</strong>安全テスト用。購入ボタンを押しても外部遷移せずリンク先プレビューを表示。<br />
+              <strong>ON（本番）：</strong>購入・公式ボタンをクリックすると外部ショップを新規タブで開きます。
+            </p>
+          </div>
+          <label class="inline-flex items-center cursor-pointer shrink-0">
+            <input type="checkbox" id="setLiveModeToggle" class="sr-only peer" />
+            <span class="w-11 h-6 bg-neutral-300 rounded-full relative transition-colors peer-checked:bg-rosegold after:content-[''] after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-white after:rounded-full after:transition-transform peer-checked:after:translate-x-5"></span>
+          </label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 10. カスタム確認ダイアログ（alert / confirm 完全不使用）                -->
+  <!-- ===================================================================== -->
+  <div id="confirmDialog" class="fixed inset-0 z-[65] hidden items-center justify-center p-4">
+    <div id="confirmBackdrop" class="absolute inset-0 bg-ink/60 backdrop-blur-xs"></div>
+    <div class="relative z-10 w-full max-w-xs bg-white rounded-3xl p-5 shadow-2xl border border-hairline animate-pop-in">
+      <h3 id="confirmTitle" class="text-sm font-extrabold text-ink">確認</h3>
+      <p id="confirmMessage" class="text-xs text-subink mt-1.5 leading-relaxed"></p>
+      <div class="mt-5 flex justify-end gap-2">
+        <button type="button" id="confirmCancelBtn" class="px-4 py-2 rounded-full border border-hairline text-xs font-semibold text-subink">キャンセル</button>
+        <button type="button" id="confirmOkBtn" class="px-4 py-2 rounded-full bg-ink text-white text-xs font-bold">実行する</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 11. トースト通知スタック                                               -->
+  <!-- ===================================================================== -->
+  <div id="toastStack" class="fixed bottom-24 md:bottom-5 left-3 right-3 sm:left-auto sm:right-5 sm:w-96 z-[70] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ===================================================================== -->
+  <!-- 12. アプリケーションロジック（純粋Vanilla JS・完全自己完結）            -->
+  <!-- ===================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // ===================================================================
+      // 1. 既定の自動公開設定（ご指定のライブGoogleスプレッドシートURL直結）
+      // ===================================================================
+      const SHEET_EDIT_URL = 'https://docs.google.com/spreadsheets/d/1I7-UPqrigl5bgWSadrV5bJrUycOlXjotYG4H_d2sQBo/edit';
+
+      const DEFAULT_SETTINGS = {
+        autoPublish: true,
+        feedUrl: 'https://docs.google.com/spreadsheets/d/1I7-UPqrigl5bgWSadrV5bJrUycOlXjotYG4H_d2sQBo/gviz/tq?tqx=out:csv&sheet=items',
+        liveMode: false,
+        autoRefresh60s: false,
+      };
+
+      const STORAGE_KEYS = {
+        SETTINGS: 'sonminsu_live_settings_v6',
+        FAVORITES: 'sonminsu_live_favs_v6',
+        RECENT: 'sonminsu_live_recent_v6',
+        REQUESTS: 'sonminsu_live_requests_v6',
+        SHEET_CACHE: 'sonminsu_live_sheet_cache_v6',
+      };
+
+      // ===================================================================
+      // 2. インラインSVGアイコン＆カテゴリ・シーン・カラーテーママスタ
+      // ===================================================================
+      const ICONS = {
+        search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+        users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+        heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+        sparkles: '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>',
+        share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>',
+        send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+        x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+        calendar: '<rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>',
+        copy: '<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+        shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/>',
+        external: '<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+        smartphone: '<rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/>',
+        message: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+        xlogo: '<path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>',
+        sync: '<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>',
+        check: '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',
+        alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+        droplet: '<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>',
+        bag: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+        gem: '<path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/>',
+        crown: '<path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>',
+        shirt: '<path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>',
+        footprints: '<path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/>',
+        grid: '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/>',
+      };
+
+      function svgIcon(name, cls = 'w-4 h-4', filled = false) {
+        const path = ICONS[name] || ICONS.sparkles;
+        return `<svg viewBox="0 0 24 24" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${cls} inline-block shrink-0" aria-hidden="true">${path}</svg>`;
+      }
+
+      function hydrateIcons(root = document) {
+        root.querySelectorAll('.ico-slot').forEach((el) => {
+          el.innerHTML = svgIcon(el.getAttribute('data-ico'), el.getAttribute('data-cls') || 'w-4 h-4');
+        });
+      }
+
+      const CATEGORY_META = [
+        { key: 'all', label: 'すべて', icon: 'grid' },
+        { key: 'perfume', label: '香水', icon: 'droplet' },
+        { key: 'cosmetics', label: 'コスメ', icon: 'sparkles' },
+        { key: 'case', label: 'スマホケース', icon: 'smartphone' },
+        { key: 'hat', label: '帽子', icon: 'crown' },
+        { key: 'accessory', label: 'アクセ', icon: 'gem' },
+        { key: 'bag', label: 'バッグ', icon: 'bag' },
+        { key: 'shoes', label: '靴', icon: 'footprints' },
+        { key: 'wear', label: 'ウェア', icon: 'shirt' },
+      ];
+
+      const SCENE_META = {
+        concert: { label: 'コンサート', emoji: '🎤' },
+        airport: { label: '空港', emoji: '✈️' },
+        drama: { label: 'ドラマ', emoji: '🎬' },
+        variety: { label: 'バラエティ', emoji: '📺' },
+      };
+
+      const GEN_LABELS = {
+        '2nd-3rd': '第2〜3世代',
+        '4th': '第4世代',
+        '5th': '第5〜6世代',
+        'solo': 'ソロ',
+      };
+
+      // 6種のカラーテーマ（著作権セーフ汎用SVGイラストの配色）
+      const COLOR_THEMES = {
+        noir:   { bg1: '#F4F4F5', bg2: '#E4E4E7', main: '#18181B', accent: '#C8A46B' },
+        pearl:  { bg1: '#FAF9F6', bg2: '#ECE8DF', main: '#78716C', accent: '#C8A46B' },
+        rose:   { bg1: '#FFF1F4', bg2: '#FBD8E2', main: '#C84B73', accent: '#C8A46B' },
+        denim:  { bg1: '#F1F5FA', bg2: '#D9E4F2', main: '#2E4C73', accent: '#C8A46B' },
+        camel:  { bg1: '#FAF5EB', bg2: '#EAE0CC', main: '#9A7242', accent: '#C8A46B' },
+        silver: { bg1: '#F3F4F6', bg2: '#DFE3EB', main: '#4B5563', accent: '#94A3B8' },
+      };
+
+      // ===================================================================
+      // 3. ビルトイン500アイテム決定論的ジェネレーター（001〜500）
+      // ===================================================================
+      const ARTIST_ROSTER = [
+        { group: 'BTS', members: ['ジョングク', 'V', 'ジミン', 'ジン', 'シュガ', 'J-HOPE', 'RM'], generation: '2nd-3rd', gender: 'boys' },
+        { group: 'BLACKPINK', members: ['ジェニー', 'リサ', 'ロゼ', 'ジス'], generation: '2nd-3rd', gender: 'girls' },
+        { group: 'SEVENTEEN', members: ['ミンギュ', 'ジョンハン', 'ウォヌ', 'ホシ', 'エスクプス', 'ドギョム', 'スングァン'], generation: '2nd-3rd', gender: 'boys' },
+        { group: 'TWICE', members: ['サナ', 'モモ', 'ナヨン', 'ミナ', 'ツウィ', 'ジヒョ'], generation: '2nd-3rd', gender: 'girls' },
+        { group: 'NCT', members: ['ジェヒョン', 'マーク', 'テヨン', 'ドヨン', 'ヘチャン', 'ジェミン'], generation: '2nd-3rd', gender: 'boys' },
+        { group: 'ASTRO', members: ['チャ・ウヌ', 'ユンサナ'], generation: '2nd-3rd', gender: 'boys' },
+        { group: 'Red Velvet', members: ['アイリーン', 'スルギ', 'ジョイ', 'ウェンディ'], generation: '2nd-3rd', gender: 'girls' },
+        { group: 'NewJeans', members: ['ハニ', 'ミンジ', 'ヘリン', 'ダニエル', 'ヘイン'], generation: '4th', gender: 'girls' },
+        { group: 'IVE', members: ['ウォニョン', 'ユジン', 'レイ', 'ガウル', 'リズ', 'イソ'], generation: '4th', gender: 'girls' },
+        { group: 'LE SSERAFIM', members: ['チェウォン', 'サクラ', 'カズハ', 'ユンジン', 'ウンチェ'], generation: '4th', gender: 'girls' },
+        { group: 'aespa', members: ['カリナ', 'ウィンター', 'ニンニン', 'ジゼル'], generation: '4th', gender: 'girls' },
+        { group: 'Stray Kids', members: ['ヒョンジン', 'フィリックス', 'バンチャン', 'リノ', 'ハン', 'スンミン', 'アイエン'], generation: '4th', gender: 'boys' },
+        { group: 'TXT', members: ['ヨンジュン', 'スビン', 'ボムギュ', 'テヒョン', 'ヒュニンカイ'], generation: '4th', gender: 'boys' },
+        { group: 'ENHYPEN', members: ['ソンフン', 'ニキ', 'ジョンウォン', 'ヒスン', 'ジェイク', 'ソヌ'], generation: '4th', gender: 'boys' },
+        { group: 'ATEEZ', members: ['サン', 'ホンジュン', 'ソンファ', 'ウヨン'], generation: '4th', gender: 'boys' },
+        { group: '(G)I-DLE', members: ['ミヨン', 'ミンニ', 'ソヨン', 'ウギ'], generation: '4th', gender: 'girls' },
+        { group: 'RIIZE', members: ['ウォンビン', 'アントン', 'ソンチャン', 'ショウタロウ', 'ソヒ', 'ウンソク'], generation: '5th', gender: 'boys' },
+        { group: 'TWS', members: ['シニュ', 'ドフン', 'ヨンジェ', 'ハンジン', 'ジフン'], generation: '5th', gender: 'boys' },
+        { group: 'ZEROBASEONE', members: ['ソン・ハンビン', 'ジャン・ハオ', 'ハン・ユジン', 'キム・ジウン', 'リッキー'], generation: '5th', gender: 'boys' },
+        { group: 'BOYNEXTDOOR', members: ['ジェヒョン', 'ソンホ', 'リウ', 'テサン', 'イハン', 'ウナク'], generation: '5th', gender: 'boys' },
+        { group: 'ILLIT', members: ['ウォンヒ', 'ミンジュ', 'モカ', 'ユナ', 'イロハ'], generation: '5th', gender: 'girls' },
+        { group: 'BABYMONSTER', members: ['アヒョン', 'アサ', 'ルカ', 'パリタ', 'ラミ', 'ローラ'], generation: '5th', gender: 'girls' },
+        { group: 'KISS OF LIFE', members: ['ナッティ', 'ジュリー', 'ベル', 'ハヌル'], generation: '5th', gender: 'girls' },
+        { group: 'MEOVV', members: ['エラ', 'ガウォン', 'スイン', 'アンナ'], generation: '5th', gender: 'girls' },
+        { group: 'IU', members: ['IU'], generation: 'solo', gender: 'solo' },
+        { group: 'テヨン', members: ['テヨン'], generation: 'solo', gender: 'solo' },
+        { group: 'G-DRAGON', members: ['G-DRAGON'], generation: 'solo', gender: 'solo' },
+        { group: 'チョン・ソミ', members: ['チョン・ソミ'], generation: 'solo', gender: 'solo' },
+      ];
+
+      const PRODUCT_TEMPLATES = {
+        perfume: [
+          { brand: 'Byredo', name: 'ブランシュ オードパルファム', variant: '50ml / ホワイトローズ＆クリーンムスク', price: 26070, trialPrice: 2390, colorTheme: 'pearl', mainCtaType: 'pr_sub', mainCtaLabel: '公式4mlお試しサブスクで体験（月2,390円〜）', altName: '公式4ml香水お試しサブスク（COLORIA）' },
+          { brand: 'Tamburins', name: 'パフューム CHAMO', variant: '50ml / 濃厚カモミール×ソフトウッド', price: 18600, trialPrice: 2390, colorTheme: 'camel', mainCtaType: 'pr_sub', mainCtaLabel: 'まずは月2,390円〜で4ml試す（公式サブスク）', altName: 'CHAMO 同香りパフュームハンドクリーム / 4mlお試し' },
+          { brand: 'Diptyque', name: 'フルール ドゥ ポー オードパルファン', variant: '75ml / アイリス×ソフトムスク', price: 28270, trialPrice: 2390, colorTheme: 'pearl', mainCtaType: 'pr_sub', mainCtaLabel: '公式4mlお試しサブスク（月2,390円〜）', altName: '公式4mlアトマイザー定期お試し' },
+          { brand: 'Jo Malone', name: 'ウッド セージ ＆ シー ソルト コロン', variant: '30ml / シトラス×マリンウッディ', price: 11880, trialPrice: 2390, colorTheme: 'silver', mainCtaType: 'pr_sub', mainCtaLabel: '月2,390円〜で香りをお試し（公式サブスク）', altName: '9mlトラベルスプレー / 4mlお試し' },
+          { brand: 'Forment', name: 'シグネチャーパフューム コットンハグ', variant: '50ml / 清潔感あふれる石鹸コットンムスク', price: 6900, trialPrice: 2390, colorTheme: 'pearl', mainCtaType: 'pr_ec', mainCtaLabel: 'Qoo10公式・韓国正規ショップで見る', altName: 'コットンハグ パフュームシャワー（¥2,400前後）' },
+          { brand: 'Le Labo', name: 'サンタル 33 オードパルファム', variant: '50ml / スモーキーサンダルウッド', price: 30800, trialPrice: 2390, colorTheme: 'noir', mainCtaType: 'pr_sub', mainCtaLabel: '公式4mlお試しサブスク（月2,390円〜）', altName: '公式4ml香水サブスクお試し' },
+          { brand: 'Nonfiction', name: 'ジェントルナイト オードパルファム', variant: '30ml / スエード×グリーンティー×ムスク', price: 12980, trialPrice: 2390, colorTheme: 'camel', mainCtaType: 'pr_sub', mainCtaLabel: '韓国人気香水を月2,390円〜で試す', altName: 'Nonfiction ハンドクリーム（¥2,750前後）' },
+        ],
+        cosmetics: [
+          { brand: 'Amuse', name: 'ジェルフィットティント', variant: '06 ソウルガール（ブルベ透明感モーブピンク）', price: 2200, trialPrice: 1650, colorTheme: 'rose', mainCtaType: 'pr_ec', mainCtaLabel: 'Qoo10 AMUSE公式ショップで見る', altName: '' },
+          { brand: 'fwee', name: 'リップアンドチーク ブラーリープリンポット', variant: 'PK01 ベイビー / ND04 マイ', price: 1980, trialPrice: 1780, colorTheme: 'rose', mainCtaType: 'pr_ec', mainCtaLabel: 'Qoo10 fwee公式ストアで見る', altName: '' },
+          { brand: 'Rom&nd', name: 'グラスティングカラーグロス', variant: '01 ピオニーバレエ / ツヤ仕上げ', price: 1320, trialPrice: 1180, colorTheme: 'rose', mainCtaType: 'pr_ec', mainCtaLabel: 'Qoo10公式ストアで見る', altName: '' },
+          { brand: 'Hera', name: 'センシュアル ヌード バーム', variant: '174 ミュートピンク（男女兼用・自然な血色）', price: 4400, trialPrice: 3850, colorTheme: 'rose', mainCtaType: 'pr_ec', mainCtaLabel: 'Hera公式ショップで見る', altName: '' },
+          { brand: 'Dior', name: 'ディオール アディクト リップ グロウ', variant: '001 ピンク / 自然な血色ティントバーム', price: 4730, trialPrice: 0, colorTheme: 'rose', mainCtaType: 'direct_official', mainCtaLabel: 'Dior 公式オンラインブティックで見る', altName: '' },
+          { brand: 'Hince', name: 'ロウグロウジェルティント', variant: 'R001 ベア / R003 ロウローズ', price: 1760, trialPrice: 1580, colorTheme: 'camel', mainCtaType: 'pr_ec', mainCtaLabel: 'Hince公式ショップで見る', altName: '' },
+        ],
+        case: [
+          { brand: 'Casetify', name: 'シルバーミラー MagSafe対応 ケース', variant: 'iPhone 15・16 Pro / Silver Mirror', price: 9680, trialPrice: 0, colorTheme: 'silver', mainCtaType: 'direct_official', mainCtaLabel: 'CASETiFY 公式ストアで見る', altName: '韓国ミラー風 MagSafe対応ケース（¥2,280前後）' },
+          { brand: 'Urban Sophistication', name: 'ザ パファーケース（マットブラック）', variant: 'iPhone 15・16 / Galaxy S24展開', price: 9900, trialPrice: 0, colorTheme: 'noir', mainCtaType: 'direct_official', mainCtaLabel: 'Urban Sophistication 公式ストアで見る', altName: 'パファー風 キルティングスマホケース（¥2,480前後）' },
+          { brand: 'String Ting', name: 'モノクロビーズ フォンストラップ', variant: 'ブラック×ホワイトクラウド / 全機種装着可', price: 5500, trialPrice: 0, colorTheme: 'pearl', mainCtaType: 'pr_ec', mainCtaLabel: '正規セレクト・取扱ショップで見る', altName: '韓国モノクロビーズ ストラップ（¥1,480前後）' },
+          { brand: 'Matin Kim', name: 'シルバーロゴプレート ハードケース', variant: 'iPhone 15・16 Pro / クールシルバー', price: 4950, trialPrice: 0, colorTheme: 'silver', mainCtaType: 'pr_ec', mainCtaLabel: '韓国正規セレクトで見る', altName: '' },
+        ],
+        hat: [
+          { brand: 'Emis', name: 'ニューロゴ ウォッシュド ボールキャップ', variant: 'ウォッシュドネイビー / フリーサイズ', price: 6600, trialPrice: 0, colorTheme: 'denim', mainCtaType: 'pr_ec', mainCtaLabel: '韓国正規タグ付きショップで見る', altName: '' },
+          { brand: 'Matin Kim', name: 'メタルロゴ リブニットビーニー', variant: 'チャコールグレー / フリーサイズ', price: 7700, trialPrice: 0, colorTheme: 'noir', mainCtaType: 'pr_ec', mainCtaLabel: 'Qoo10韓国正規店で見る', altName: '' },
+          { brand: 'Miu Miu', name: 'ドリル ロゴ刺繍 ベースボールキャップ', variant: 'ライトブルー / コットンツイル', price: 68200, trialPrice: 2980, colorTheme: 'denim', mainCtaType: 'direct_official', mainCtaLabel: 'Miu Miu 公式オンラインで見る', altName: '韓国ウォッシュド ライトブルーキャップ（¥2,980前後）' },
+          { brand: 'New Era', name: '9FORTY ウォッシュド ベースボールキャップ', variant: 'ブラック / アジャスタブル', price: 4620, trialPrice: 0, colorTheme: 'noir', mainCtaType: 'pr_ec', mainCtaLabel: '楽天市場 正規ショップで見る', altName: '' },
+          { brand: 'Prada', name: 'リナイロン バケットハット', variant: 'ブラック / トライアングルプレート', price: 94600, trialPrice: 2980, colorTheme: 'noir', mainCtaType: 'direct_official', mainCtaLabel: 'Prada 公式オンラインで見る', altName: '撥水ナイロン 深めバケットハット（¥2,980前後）' },
+        ],
+        accessory: [
+          { brand: 'Gentle Monster', name: 'オーバル スリムサングラス', variant: 'ジェットブラック / UV99.9%カット', price: 39600, trialPrice: 2980, colorTheme: 'noir', mainCtaType: 'direct_official', mainCtaLabel: 'Gentle Monster 公式ストアで見る', altName: '韓国モード UV400 オーバルサングラス（¥2,980前後）' },
+          { brand: 'Tiffany & Co.', name: 'ハードウェア リンクペンダント', variant: 'スターリングシルバー / 18インチ', price: 118800, trialPrice: 3480, colorTheme: 'silver', mainCtaType: 'direct_official', mainCtaLabel: 'Tiffany & Co. 公式オンラインで見る', altName: 'サージカルステンレス リンクチェーンネックレス（¥3,480前後）' },
+          { brand: 'Cartier', name: 'トリニティ リング クラシック', variant: 'スリーゴールド / 3連モデル', price: 286000, trialPrice: 2980, colorTheme: 'camel', mainCtaType: 'direct_official', mainCtaLabel: 'Cartier 公式ブティックで見る', altName: '18KGP スリーカラー 3連クロスリング（¥2,980前後）' },
+          { brand: 'Chrome Hearts', name: 'ペーパーチェーン ネックレス 20インチ', variant: 'シルバー925 / 50cm', price: 148000, trialPrice: 3280, colorTheme: 'silver', mainCtaType: 'direct_official', mainCtaLabel: 'Chrome Hearts 公式サイトを見る', altName: 'サージカルステンレス 太めチェーン 50cm（¥3,280前後）' },
+          { brand: 'Nonenon', name: 'シルバーチェーン フープピアス', variant: 'シルバー925コーティング / ユニセックス', price: 4200, trialPrice: 0, colorTheme: 'silver', mainCtaType: 'pr_ec', mainCtaLabel: '韓国デザイナーズ正規店で見る', altName: '' },
+        ],
+        bag: [
+          { brand: 'Chanel', name: 'ミニ フラップ チェーンショルダー', variant: 'ブラック ラムスキン / ゴールド金具', price: 891000, trialPrice: 5480, colorTheme: 'noir', mainCtaType: 'direct_official', mainCtaLabel: 'Chanel 公式オンラインで見る', altName: '高見えキルティング ゴールドチェーンミニバッグ（¥5,480前後）' },
+          { brand: 'Celine', name: 'トリオンフ ミディアム メッセンジャー', variant: 'ブラック カーフスキン / クロスボディ', price: 341000, trialPrice: 5980, colorTheme: 'noir', mainCtaType: 'direct_official', mainCtaLabel: 'Celine 公式オンラインで見る', altName: 'ミニマルスクエア レザーショルダーバッグ（¥5,980前後）' },
+          { brand: 'Stand Oil', name: 'チャビーバッグ ミニ（Chubby Bag）', variant: 'クリームホワイト / ヴィーガンレザー', price: 15900, trialPrice: 4980, colorTheme: 'pearl', mainCtaType: 'pr_ec', mainCtaLabel: 'Qoo10 STAND OIL公式で見る', altName: '韓国横長 ミニボストンバッグ（¥4,980前後）' },
+          { brand: 'Carlyn', name: 'ナイロン パフィー クロスボディバッグ', variant: 'クラウドホワイト / 超軽量キルティング', price: 14300, trialPrice: 3980, colorTheme: 'pearl', mainCtaType: 'pr_ec', mainCtaLabel: 'Qoo10 CARLYN正規店で見る', altName: '超軽量 パフィーキルティング2WAYバッグ（¥3,980前後）' },
+          { brand: 'Matin Kim', name: 'アコーディオン ウォレット ミニバッグ', variant: 'シルバー / メタルプレート付', price: 12800, trialPrice: 3980, colorTheme: 'silver', mainCtaType: 'pr_ec', mainCtaLabel: '韓国正規セレクトで見る', altName: 'メタリックシルバー ミニクロスボディ（¥3,980前後）' },
+        ],
+        shoes: [
+          { brand: 'Adidas', name: 'サンバ OG（SAMBA OG）', variant: 'クラウドホワイト×ブラック / 22.5〜28.5cm', price: 15400, trialPrice: 5900, colorTheme: 'pearl', mainCtaType: 'pr_ec', mainCtaLabel: '楽天市場 正規取扱ショップで見る', altName: 'ガムソール レトロローカットスニーカー（¥5,900前後）' },
+          { brand: 'New Balance', name: '1906R メタリックシルバー', variant: 'シルバー×ホワイトメッシュ / 23〜28.5cm', price: 19800, trialPrice: 6480, colorTheme: 'silver', mainCtaType: 'pr_ec', mainCtaLabel: '正規取扱ショップでサイズを探す', altName: '韓国Y2K シルバーメッシュ 厚底スニーカー（¥6,480前後）' },
+          { brand: 'UGG', name: 'クラシック ウルトラ ミニ プラットフォーム', variant: 'チェスナット / 5cm厚底ムートン', price: 25300, trialPrice: 4980, colorTheme: 'camel', mainCtaType: 'pr_ec', mainCtaLabel: '正規取扱ショップで見る', altName: '撥水 厚底ムートンショートブーツ（¥4,980前後）' },
+          { brand: 'Dr. Martens', name: 'プラットフォーム 厚底コンバットブーツ', variant: 'ブラック / 7cm厚底ソール', price: 36300, trialPrice: 6900, colorTheme: 'noir', mainCtaType: 'pr_ec', mainCtaLabel: '正規取扱ショップで見る', altName: '超軽量7cm 厚底レースアップブーツ（¥6,900前後）' },
+          { brand: 'Onitsuka Tiger', name: 'メキシコ 66（MEXICO 66）', variant: 'イエロー×ブラック / 23〜28cm', price: 15400, trialPrice: 5480, colorTheme: 'camel', mainCtaType: 'direct_official', mainCtaLabel: 'Onitsuka Tiger 公式ストアで見る', altName: 'レトロライン ローカットスニーカー（¥5,480前後）' },
+        ],
+        wear: [
+          { brand: 'Mardi Mercredi', name: 'フラワーマルディ スウェットシャツ', variant: 'オートミール×ネイビー / フリーサイズ', price: 12100, trialPrice: 4980, colorTheme: 'pearl', mainCtaType: 'pr_ec', mainCtaLabel: '正規取扱ショップで見る', altName: '韓国フラワー刺繍 オーバーサイズスウェット（¥4,980前後）' },
+          { brand: 'Stussy', name: '8ボール オーバーサイズフーディ', variant: 'ヘザーグレー / L・XL', price: 24200, trialPrice: 5480, colorTheme: 'silver', mainCtaType: 'direct_official', mainCtaLabel: 'Stussy 日本公式ストアで見る', altName: 'ヘビーウェイト オーバーサイズパーカー（¥5,480前後）' },
+          { brand: 'Ami Paris', name: 'カシミヤブレンド Vネックカーディガン', variant: 'クリームアイボリー / M・L', price: 68200, trialPrice: 4980, colorTheme: 'pearl', mainCtaType: 'direct_official', mainCtaLabel: 'Ami Paris 公式ストアで見る', altName: 'リラックスVネック ニットカーディガン（¥4,980前後）' },
+          { brand: 'Calvin Klein', name: 'リラックスフィット デニムジャケット', variant: 'ミッドインディゴ / Lサイズ', price: 30800, trialPrice: 6980, colorTheme: 'denim', mainCtaType: 'direct_official', mainCtaLabel: 'Calvin Klein 公式ストアで見る', altName: '韓国ヴィンテージウォッシュ デニムジャケット（¥6,980前後）' },
+          { brand: 'Balenciaga', name: 'オーバーサイズ テープロゴ フーディ', variant: 'ウォッシュドブラック / Lサイズ', price: 154000, trialPrice: 6480, colorTheme: 'noir', mainCtaType: 'direct_official', mainCtaLabel: 'Balenciaga 公式オンラインで見る', altName: 'ピグメント加工 ビッグ黒フーディ（¥6,480前後）' },
+        ],
+      };
+
+      const ARCHIVE_MONTHS = [
+        '2026-11','2026-10','2026-09','2026-08','2026-07','2026-06','2026-05','2026-04','2026-03','2026-02','2026-01',
+        '2025-12','2025-11','2025-10','2025-09','2025-08','2025-07','2025-06','2025-05','2025-04','2025-03','2025-02','2025-01',
+        '2024-12','2024-11',
+      ];
+
+      const SCENE_KEYS = ['airport', 'concert', 'drama', 'variety'];
+      const CAT_KEYS = ['perfume', 'cosmetics', 'case', 'hat', 'accessory', 'bag', 'shoes', 'wear'];
+
+      const SCENE_NOTES_TPL = {
+        airport: ['仁川国際空港での海外スケジュール出国ファッションで着用。', 'ワールドツアー移動時の空港スナップにて私服着用が確認。', '日本来日時の到着ファッションで着用されSNSで話題。'],
+        concert: ['ワールドツアー公演のリハーサル＆アンコールステージで着用。', 'ソウル単独公演のビハインド映像にて着用が確認。', 'ファンミーティング公演の衣装・私服ミックスコーデで着用。'],
+        drama: ['出演ドラマの劇中シーンおよび公式スチール撮影で着用。', 'スペシャルドラマ＆ショートフィルムのメイキングで着用。', 'ドラマ制作発表会・オフショット投稿で着用が確認。'],
+        variety: ['公式YouTube自主制作バラエティの宿舎・私服回で登場。', '人気トーク＆美容バラエティのバッグの中身紹介で登場。', '配信コンテンツの移動Vlog・楽屋ビハインドで着用。'],
+      };
+
+      function buildBuiltIn500Items() {
+        const list = [];
+        const snsHosts = ['https://www.instagram.com/', 'https://www.youtube.com/', 'https://x.com/', 'https://weverse.io/'];
+
+        for (let n = 1; n <= 500; n++) {
+          const i = n - 1;
+          const code = String(n).padStart(3, '0');
+          const artist = ARTIST_ROSTER[(i * 7 + Math.floor(i / 6)) % ARTIST_ROSTER.length];
+          const member = artist.members[(i * 3 + Math.floor(i / 9)) % artist.members.length];
+          const category = CAT_KEYS[i % CAT_KEYS.length];
+          const pool = PRODUCT_TEMPLATES[category];
+          const tpl = pool[(i * 5 + Math.floor(i / 8)) % pool.length];
+          const scene = SCENE_KEYS[(i * 3 + Math.floor(i / 5)) % SCENE_KEYS.length];
+          const date = ARCHIVE_MONTHS[(i * 5 + Math.floor(i / 11)) % ARCHIVE_MONTHS.length];
+          const kw = encodeURIComponent(`${tpl.brand} ${tpl.name}`);
+          const noteList = SCENE_NOTES_TPL[scene];
+          const sceneNote = `${formatYM(date)} ${noteList[i % noteList.length]}`;
+
+          let mainCtaUrl = `https://www.qoo10.jp/s/${kw}?aff=sonminsu_demo`;
+          if (tpl.mainCtaType === 'pr_sub') {
+            mainCtaUrl = `https://coloria.jp/?aff=sonminsu_demo&q=${kw}`;
+          } else if (tpl.mainCtaType === 'direct_official') {
+            mainCtaUrl = `https://www.google.com/search?q=${encodeURIComponent(tpl.brand + ' 公式オンライン')}`;
+          }
+
+          const altUrl = tpl.altName
+            ? (category === 'perfume'
+              ? `https://coloria.jp/?aff=sonminsu_demo&q=${kw}`
+              : `https://search.rakuten.co.jp/search/mall/${encodeURIComponent(tpl.altName)}/?aff=sonminsu_demo`)
+            : '';
+
+          list.push({
+            id: `item-${code}`,
+            code,
+            group: artist.group,
+            member,
+            generation: artist.generation,
+            gender: artist.gender,
+            scene,
+            date,
+            category,
+            brand: tpl.brand,
+            name: tpl.name,
+            variant: tpl.variant,
+            price: tpl.price,
+            trialPrice: tpl.trialPrice || 0,
+            colorTheme: tpl.colorTheme,
+            sceneNote,
+            snsEmbedUrl: snsHosts[i % snsHosts.length],
+            mainCtaType: tpl.mainCtaType,
+            mainCtaLabel: tpl.mainCtaLabel,
+            mainCtaUrl,
+            qoo10Url: `https://www.qoo10.jp/s/${kw}?aff=sonminsu_demo`,
+            rakutenUrl: `https://search.rakuten.co.jp/search/mall/${kw}/?aff=sonminsu_demo`,
+            amazonUrl: `https://www.amazon.co.jp/s?k=${kw}&tag=sonminsu-22`,
+            altName: tpl.altName || '',
+            altUrl,
+            status: 'published',
+            source: 'builtin',
+            isAutoCatch: n <= 6,
+            sortOrder: n,
+          });
+        }
+        return list;
+      }
+
+      const BUILTIN_500 = buildBuiltIn500Items();
+
+      // ===================================================================
+      // 4. アプリケーション状態（State）
+      // ===================================================================
+      const state = {
+        settings: { ...DEFAULT_SETTINGS },
+        sheetItems: [],
+        items: [],
+        favorites: [],
+        recentIds: [],
+        requests: [],
+
+        // 同期診断ステータス
+        syncState: {
+          status: 'idle', // 'idle' | 'loading' | 'success' | 'permission_error' | 'network_error' | 'disabled'
+          sheetCount: 0,
+          sheetCodes: [],
+          lastCheckedAt: '',
+          errorDetail: '',
+        },
+        refreshTimerId: null,
+
+        // UI状態＆フィルター
+        activeTab: 'search',
+        searchQuery: '',
+        selectedScene: 'all',
+        selectedCategory: 'all',
+        selectedYear: 'all',
+        selectedMonth: 'all',
+        selectedBudget: 'all',
+        selectedGroup: '',
+        sortBy: 'newest',
+        visibleLimit: 24,
+        dirGender: 'all',
+
+        activeModalId: null,
+        shareContext: 'site',
+        sharePreset: 'friend',
+      };
+
+      // ===================================================================
+      // 5. ユーティリティ ＆ RFC 4180 CSV パーサー ＆ 25列マッピング
+      // ===================================================================
+      function esc(v) {
+        if (v === null || v === undefined) return '';
+        return String(v)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function formatYen(n) {
+        const val = Math.round(Number(n) || 0);
+        return val > 0 ? '¥' + val.toLocaleString('ja-JP') : '価格要確認';
+      }
+
+      function formatYM(d) {
+        const m = String(d || '').match(/^(\d{4})[-/](\d{1,2})/);
+        return m ? `${m[1]}年${parseInt(m[2], 10)}月` : (d || '');
+      }
+
+      function nowStr() {
+        const d = new Date();
+        const p = (x) => String(x).padStart(2, '0');
+        return `${d.getFullYear()}/${p(d.getMonth() + 1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+      }
+
+      function readStorage(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(fallback));
+        } catch (e) {
+          return JSON.parse(JSON.stringify(fallback));
+        }
+      }
+
+      function writeStorage(key, val) {
+        try {
+          localStorage.setItem(key, JSON.stringify(val));
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      // 数値サニタイズ（"¥5,800" / "￥319,000円" / 全角数字を安全に整数変換）
+      function parseYenNumber(raw) {
+        if (raw === null || raw === undefined) return 0;
+        const halfWidth = String(raw).replace(/[０-９]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
+        const cleaned = halfWidth.replace(/[¥￥,、円\s]/g, '').replace(/[^\d.]/g, '');
+        const num = parseInt(cleaned, 10);
+        return Number.isFinite(num) && num > 0 ? num : 0;
+      }
+
+      // 完全なRFC 4180準拠CSVパーサー（引用符内のカンマ・改行・""エスケープ対応）
+      function parseRfc4180Csv(csvText) {
+        const text = String(csvText || '').replace(/^\uFEFF/, '');
+        const rows = [];
+        let row = [];
+        let field = '';
+        let inQuotes = false;
+
+        for (let i = 0; i < text.length; i++) {
+          const ch = text[i];
+          if (inQuotes) {
+            if (ch === '"') {
+              if (text[i + 1] === '"') {
+                field += '"';
+                i++;
+              } else {
+                inQuotes = false;
+              }
+            } else {
+              field += ch;
+            }
+          } else {
+            if (ch === '"') {
+              inQuotes = true;
+            } else if (ch === ',') {
+              row.push(field);
+              field = '';
+            } else if (ch === '\r') {
+              if (text[i + 1] === '\n') i++;
+              row.push(field);
+              rows.push(row);
+              row = [];
+              field = '';
+            } else if (ch === '\n') {
+              row.push(field);
+              rows.push(row);
+              row = [];
+              field = '';
+            } else {
+              field += ch;
+            }
+          }
+        }
+        if (field.length > 0 || row.length > 0) {
+          row.push(field);
+          rows.push(row);
+        }
+        return rows.filter((r) => r.some((cell) => String(cell).trim() !== ''));
+      }
+
+      // 値の柔軟な正規化（シート側で英語キーでも日本語表記でも正しく動くように保護）
+      function normScene(v) {
+        const s = String(v || '').trim().toLowerCase();
+        if (s === 'concert' || s.includes('コンサート') || s.includes('ライブ')) return 'concert';
+        if (s === 'airport' || s.includes('空港')) return 'airport';
+        if (s === 'drama' || s.includes('ドラマ')) return 'drama';
+        if (s === 'variety' || s.includes('バラエティ') || s.includes('sns')) return 'variety';
+        return 'airport';
+      }
+
+      function normCategory(v) {
+        const s = String(v || '').trim().toLowerCase();
+        if (s === 'perfume' || s.includes('香水')) return 'perfume';
+        if (s === 'cosmetics' || s.includes('コスメ') || s.includes('リップ')) return 'cosmetics';
+        if (s === 'case' || s.includes('スマホ') || s.includes('ケース')) return 'case';
+        if (s === 'hat' || s.includes('帽子') || s.includes('キャップ')) return 'hat';
+        if (s === 'accessory' || s.includes('アクセ') || s.includes('サングラス')) return 'accessory';
+        if (s === 'bag' || s.includes('バッグ')) return 'bag';
+        if (s === 'shoes' || s.includes('靴') || s.includes('スニーカー')) return 'shoes';
+        if (s === 'wear' || s.includes('ウェア') || s.includes('服')) return 'wear';
+        return 'wear';
+      }
+
+      function normGeneration(v) {
+        const s = String(v || '').trim().toLowerCase();
+        if (s === '2nd-3rd' || s.includes('2') || s.includes('3')) return '2nd-3rd';
+        if (s === '4th' || s.includes('4')) return '4th';
+        if (s === '5th' || s === '5th-6th' || s.includes('5') || s.includes('6')) return '5th';
+        if (s === 'solo' || s.includes('ソロ')) return 'solo';
+        return '4th';
+      }
+
+      function normGender(v) {
+        const s = String(v || '').trim().toLowerCase();
+        if (s === 'boys' || s.includes('男')) return 'boys';
+        if (s === 'solo' || s.includes('ソロ')) return 'solo';
+        return 'girls';
+      }
+
+      function normColorTheme(v) {
+        const s = String(v || '').trim().toLowerCase();
+        return COLOR_THEMES[s] ? s : 'noir';
+      }
+
+      function normDateYM(v) {
+        const m = String(v || '').trim().match(/^(\d{4})[-/](\d{1,2})/);
+        if (m) return `${m[1]}-${String(parseInt(m[2], 10)).padStart(2, '0')}`;
+        return '2026-11';
+      }
+
+      // 25列CSVを構造化アイテムオブジェクトへ厳密マッピング
+      function mapSheetCsvToItems(csvText) {
+        const matrix = parseRfc4180Csv(csvText);
+        if (matrix.length < 2) return [];
+
+        const rawHeaders = matrix[0].map((h) => String(h || '').trim());
+        const headerMap = {};
+        rawHeaders.forEach((h, idx) => {
+          headerMap[h.toLowerCase()] = idx;
+        });
+
+        const getCol = (row, name) => {
+          const idx = headerMap[name.toLowerCase()];
+          return idx !== undefined && row[idx] !== undefined ? String(row[idx]).trim() : '';
+        };
+
+        const parsedItems = [];
+        for (let r = 1; r < matrix.length; r++) {
+          const row = matrix[r];
+          const statusRaw = getCol(row, 'status').toLowerCase();
+          // status が空 または published のみ公開（draft / 下書き等はスキップ）
+          if (statusRaw && statusRaw !== 'published' && statusRaw !== '公開') continue;
+
+          const name = getCol(row, 'name');
+          const brand = getCol(row, 'brand');
+          const group = getCol(row, 'group');
+          if (!name && !brand && !group) continue;
+
+          const rawCode = getCol(row, 'code').replace(/^No\./i, '').trim();
+          const code = rawCode ? ( /^\d+$/.test(rawCode) ? rawCode.padStart(3, '0') : rawCode ) : String(500 + r).padStart(3, '0');
+          const price = parseYenNumber(getCol(row, 'price'));
+          const trialPrice = parseYenNumber(getCol(row, 'trialPrice'));
+          const mainCtaTypeRaw = getCol(row, 'mainCtaType').toLowerCase();
+          const mainCtaType = ['pr_sub', 'pr_ec', 'direct_official'].includes(mainCtaTypeRaw) ? mainCtaTypeRaw : 'pr_ec';
+
+          parsedItems.push({
+            id: `item-${code}`,
+            code,
+            group: group || 'K-POP',
+            member: getCol(row, 'member'),
+            generation: normGeneration(getCol(row, 'generation')),
+            gender: normGender(getCol(row, 'gender')),
+            scene: normScene(getCol(row, 'scene')),
+            date: normDateYM(getCol(row, 'date')),
+            category: normCategory(getCol(row, 'category')),
+            brand: brand || 'SELECT',
+            name: name || '着用アイテム',
+            variant: getCol(row, 'variant') || 'フリーサイズ / 正規品',
+            price,
+            trialPrice,
+            colorTheme: normColorTheme(getCol(row, 'colorTheme')),
+            sceneNote: getCol(row, 'sceneNote') || 'Googleスプレッドシートより自動公開された最新着用アイテムです。',
+            snsEmbedUrl: getCol(row, 'snsEmbedUrl') || 'https://www.instagram.com/',
+            mainCtaType,
+            mainCtaLabel: getCol(row, 'mainCtaLabel') || (mainCtaType === 'direct_official' ? `${brand || 'ブランド'}公式ストアで見る` : 'おすすめショップで見る'),
+            mainCtaUrl: getCol(row, 'mainCtaUrl'),
+            qoo10Url: getCol(row, 'qoo10Url'),
+            rakutenUrl: getCol(row, 'rakutenUrl'),
+            amazonUrl: getCol(row, 'amazonUrl'),
+            altName: getCol(row, 'altName'),
+            altUrl: getCol(row, 'altUrl'),
+            status: 'published',
+            source: 'sheet',
+            isAutoCatch: true,
+            sortOrder: -1000 + r,
+          });
+        }
+        return parsedItems;
+      }
+
+      // Googleシートのアイテムを先頭に結合し、codeで重複排除（シート側がビルトインを上書き）
+      function rebuildMergedCatalog() {
+        const sheetCodes = new Set(state.sheetItems.map((it) => String(it.code).toLowerCase()));
+        const filteredBuiltin = BUILTIN_500.filter((it) => !sheetCodes.has(String(it.code).toLowerCase()));
+        state.items = [...state.sheetItems, ...filteredBuiltin];
+      }
+
+      // ライブCSVフェッチ（キャッシュバスター付き・エラー時は顧客体験を壊さず静かに保護）
+      async function syncFromGoogleSheet(isManual = false) {
+        if (!state.settings.autoPublish && !isManual) {
+          state.syncState = {
+            status: 'disabled',
+            sheetCount: state.sheetItems.length,
+            sheetCodes: state.sheetItems.map((x) => x.code),
+            lastCheckedAt: nowStr(),
+            errorDetail: '自動公開スイッチがOFFになっています。',
+          };
+          updateSyncModalDiagUI();
+          return;
+        }
+
+        const baseUrl = (state.settings.feedUrl || '').trim();
+        if (!baseUrl) {
+          state.syncState = {
+            status: 'network_error',
+            sheetCount: 0,
+            sheetCodes: [],
+            lastCheckedAt: nowStr(),
+            errorDetail: 'feedUrlが設定されていません。',
+          };
+          updateSyncModalDiagUI();
+          return;
+        }
+
+        state.syncState.status = 'loading';
+        updateSyncModalDiagUI();
+
+        const sep = baseUrl.includes('?') ? '&' : '?';
+        const fetchUrl = `${baseUrl}${sep}_t=${Date.now()}`;
+
+        try {
+          const response = await fetch(fetchUrl, { method: 'GET', cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const text = await response.text();
+          const trimmed = text.trim();
+
+          // Googleシートが非公開の場合、ログインページのHTMLが返却されるケースを検知
+          if (/^<!doctype\s+html/i.test(trimmed) || /^<html/i.test(trimmed) || trimmed.includes('accounts.google.com')) {
+            throw new Error('SHEET_NOT_PUBLIC_HTML');
+          }
+
+          const rows = mapSheetCsvToItems(trimmed);
+          state.sheetItems = rows;
+          writeStorage(STORAGE_KEYS.SHEET_CACHE, rows);
+          rebuildMergedCatalog();
+
+          state.syncState = {
+            status: 'success',
+            sheetCount: rows.length,
+            sheetCodes: rows.map((x) => x.code),
+            lastCheckedAt: nowStr(),
+            errorDetail: '',
+          };
+
+          renderCurrentView();
+          updateSyncModalDiagUI();
+          if (isManual) {
+            showToast(`✅ 連携成功：スプレッドシートから ${rows.length} 件を自動公開中`, 'success');
+          }
+        } catch (err) {
+          const msg = String(err && err.message ? err.message : err);
+          // 権限未公開（CORSブロック / Failed to fetch / HTMLリダイレクト / 401・403）を丁寧に案内
+          const isPermissionIssue =
+            msg.includes('SHEET_NOT_PUBLIC') ||
+            msg.includes('Failed to fetch') ||
+            msg.includes('401') ||
+            msg.includes('403') ||
+            msg.includes('NetworkError');
+
+          state.syncState = {
+            status: isPermissionIssue ? 'permission_error' : 'network_error',
+            sheetCount: state.sheetItems.length,
+            sheetCodes: state.sheetItems.map((x) => x.code),
+            lastCheckedAt: nowStr(),
+            errorDetail: msg,
+          };
+
+          // エラー時もお客様向け500件カタログは完全に動作継続
+          rebuildMergedCatalog();
+          renderCurrentView();
+          updateSyncModalDiagUI();
+
+          if (isManual) {
+            showToast(
+              'スプレッドシートの共有設定を確認してください',
+              'warning',
+              '右上の『共有』→『リンクを知っている全員（閲覧者）』に変更後、再同期してください。'
+            );
+          }
+        }
+      }
+
+      function configureAutoRefreshTimer() {
+        if (state.refreshTimerId) {
+          clearInterval(state.refreshTimerId);
+          state.refreshTimerId = null;
+        }
+        if (state.settings.autoPublish && state.settings.autoRefresh60s) {
+          state.refreshTimerId = setInterval(() => syncFromGoogleSheet(false), 60000);
+        }
+      }
+
+      // iFrame互換クリップボードコピー（document.execCommand使用）
+      function copyText(text, toastMsg = 'コピーしました') {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.top = '-9999px';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showToast(toastMsg, 'success', text.length > 72 ? text.slice(0, 72) + '...' : text);
+        } catch (e) {
+          showToast('コピーに失敗しました', 'warning');
+        }
+      }
+
+      function getBaseUrl() { return window.location.href.split('#')[0]; }
+      function getDeepLink(code) { return `${getBaseUrl()}#item-${code}`; }
+
+      // ===================================================================
+      // 6. トースト通知＆カスタム確認ダイアログ（alert / confirm 完全不使用）
+      // ===================================================================
+      function showToast(title, type = 'info', detail = '') {
+        const stack = document.getElementById('toastStack');
+        const el = document.createElement('div');
+        const border =
+          type === 'success' ? 'border-l-4 border-emerald-400'
+          : type === 'warning' ? 'border-l-4 border-amber-400'
+          : 'border-l-4 border-champagne';
+        el.className = `pointer-events-auto bg-ink text-white rounded-2xl shadow-2xl px-4 py-3 text-xs animate-fade-up flex items-start gap-2.5 ${border}`;
+        const iconName = type === 'success' ? 'check' : type === 'warning' ? 'alert' : 'sparkles';
+
+        el.innerHTML = `
+          <span class="text-champagne mt-0.5">${svgIcon(iconName, 'w-4 h-4')}</span>
+          <div class="flex-1 min-w-0">
+            <div class="font-bold leading-snug">${esc(title)}</div>
+            ${detail ? `<div class="text-[11px] text-white/70 mt-0.5 break-all">${esc(detail)}</div>` : ''}
+          </div>
+          <button type="button" class="toast-x text-white/40 hover:text-white p-0.5" aria-label="閉じる">${svgIcon('x', 'w-3.5 h-3.5')}</button>
+        `;
+        stack.appendChild(el);
+        const dismiss = () => {
+          el.classList.add('opacity-0', 'transition-opacity', 'duration-200');
+          setTimeout(() => el.remove(), 220);
+        };
+        el.querySelector('.toast-x').addEventListener('click', dismiss);
+        setTimeout(dismiss, 4000);
+      }
+
+      let confirmOkFn = null;
+      function openConfirm(title, msg, onOk) {
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = msg;
+        confirmOkFn = onOk;
+        const d = document.getElementById('confirmDialog');
+        d.classList.remove('hidden');
+        d.classList.add('flex');
+      }
+      function closeConfirm() {
+        const d = document.getElementById('confirmDialog');
+        d.classList.add('hidden');
+        d.classList.remove('flex');
+        confirmOkFn = null;
+      }
+
+      // ===================================================================
+      // 7. 著作権セーフ 汎用ファッションSVGイラスト（8カテゴリ×6カラーテーマ）
+      // ===================================================================
+      function buildGenericFashionSvg(item) {
+        const pal = COLOR_THEMES[item.colorTheme] || COLOR_THEMES.noir;
+        const uid = esc(`g-${item.code}-${item.colorTheme}`.replace(/[^a-zA-Z0-9_-]/g, ''));
+        let art = '';
+        let catTag = 'FASHION';
+
+        switch (item.category) {
+          case 'perfume':
+            catTag = 'FRAGRANCE';
+            art = `
+              <ellipse cx="140" cy="222" rx="54" ry="5" fill="#111111" fill-opacity="0.06"/>
+              <rect x="116" y="42" width="48" height="24" rx="5" fill="${pal.main}" stroke="#111111" stroke-width="1.6"/>
+              <rect x="130" y="66" width="20" height="12" fill="${pal.accent}" stroke="#111111" stroke-width="1.3"/>
+              <rect x="86" y="78" width="108" height="140" rx="20" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+              <rect x="96" y="112" width="88" height="96" rx="12" fill="${pal.accent}" fill-opacity="0.18"/>
+              <rect x="108" y="106" width="64" height="54" rx="5" fill="#FFFFFF" stroke="#111111" stroke-opacity="0.18"/>
+              <line x1="120" y1="128" x2="160" y2="128" stroke="${pal.main}" stroke-width="2" stroke-linecap="round"/>
+              <line x1="126" y1="141" x2="154" y2="141" stroke="${pal.accent}" stroke-width="1.8" stroke-linecap="round"/>
+            `;
+            break;
+          case 'cosmetics':
+            catTag = 'COSMETICS';
+            art = `
+              <ellipse cx="140" cy="216" rx="68" ry="6" fill="#111111" fill-opacity="0.06"/>
+              <g transform="rotate(-10 112 146)">
+                <rect x="92" y="114" width="36" height="92" rx="8" fill="${pal.main}" stroke="#111111" stroke-width="1.8"/>
+                <rect x="97" y="82" width="26" height="32" rx="3" fill="${pal.accent}" stroke="#111111" stroke-width="1.4"/>
+                <path d="M100 82 L100 56 C100 50, 120 44, 120 60 L120 82 Z" fill="#E11D48" stroke="#111111" stroke-width="1.5"/>
+              </g>
+              <circle cx="174" cy="166" r="38" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+              <circle cx="174" cy="166" r="24" fill="${pal.main}" fill-opacity="0.24"/>
+              <circle cx="174" cy="166" r="12" fill="${pal.accent}" fill-opacity="0.5"/>
+            `;
+            break;
+          case 'case':
+            catTag = 'MOBILE CASE';
+            art = `
+              <rect x="90" y="36" width="96" height="190" rx="22" fill="${pal.main}" stroke="#111111" stroke-width="2"/>
+              <rect x="97" y="43" width="82" height="176" rx="16" fill="#FFFFFF" fill-opacity="0.95"/>
+              <rect x="105" y="51" width="32" height="34" rx="9" fill="${pal.main}"/>
+              <circle cx="115" cy="62" r="4.5" fill="#FFFFFF" fill-opacity="0.45"/>
+              <circle cx="127" cy="74" r="4.5" fill="#FFFFFF" fill-opacity="0.45"/>
+              <circle cx="138" cy="140" r="20" fill="none" stroke="${pal.accent}" stroke-width="3"/>
+              <rect x="136" y="166" width="4" height="14" rx="2" fill="${pal.accent}"/>
+            `;
+            break;
+          case 'hat':
+            catTag = 'HEADWEAR';
+            art = `
+              <ellipse cx="140" cy="196" rx="76" ry="6" fill="#111111" fill-opacity="0.06"/>
+              <path d="M68 164 C68 96, 212 96, 212 164 Z" fill="${pal.main}" fill-opacity="0.92" stroke="#111111" stroke-width="2"/>
+              <path d="M62 162 Q140 184 234 166 Q204 196 86 184 Z" fill="${pal.accent}" stroke="#111111" stroke-width="1.8" stroke-linejoin="round"/>
+              <circle cx="140" cy="96" r="6" fill="${pal.accent}" stroke="#111111" stroke-width="1.5"/>
+            `;
+            break;
+          case 'accessory':
+            catTag = 'ACCESSORY';
+            art = `
+              <path d="M88 60 C88 154, 192 154, 192 60" fill="none" stroke="${pal.main}" stroke-width="3.5" stroke-dasharray="6 4" stroke-linecap="round"/>
+              <circle cx="140" cy="142" r="14" fill="${pal.accent}" stroke="#111111" stroke-width="1.8"/>
+              <circle cx="104" cy="190" r="18" fill="none" stroke="${pal.accent}" stroke-width="4.5"/>
+              <circle cx="176" cy="190" r="18" fill="none" stroke="${pal.main}" stroke-width="4"/>
+            `;
+            break;
+          case 'bag':
+            catTag = 'BAG';
+            art = `
+              <ellipse cx="140" cy="216" rx="70" ry="6" fill="#111111" fill-opacity="0.06"/>
+              <path d="M100 116 C100 62, 180 62, 180 116" fill="none" stroke="${pal.accent}" stroke-width="5.5" stroke-linecap="round"/>
+              <rect x="68" y="114" width="144" height="94" rx="20" fill="${pal.main}" fill-opacity="0.92" stroke="#111111" stroke-width="2"/>
+              <path d="M68 144 Q140 166 212 144" fill="none" stroke="#FFFFFF" stroke-opacity="0.4" stroke-width="1.8"/>
+              <rect x="128" y="148" width="24" height="14" rx="5" fill="${pal.accent}" stroke="#111111" stroke-width="1.4"/>
+            `;
+            break;
+          case 'shoes':
+            catTag = 'FOOTWEAR';
+            art = `
+              <ellipse cx="140" cy="204" rx="84" ry="7" fill="#111111" fill-opacity="0.06"/>
+              <path d="M54 174 C60 140, 98 126, 126 112 L154 138 C178 146, 214 148, 226 172 L226 186 L54 186 Z" fill="#FFFFFF" stroke="#111111" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M54 174 C72 172, 96 162, 118 146 L142 160 C164 168, 198 170, 224 174 L224 186 L54 186 Z" fill="${pal.main}" fill-opacity="0.9"/>
+              <path d="M52 184 L228 184 L226 196 C224 202, 218 204, 210 204 L64 204 C56 204, 52 200, 52 194 Z" fill="${pal.accent}" stroke="#111111" stroke-width="1.6"/>
+            `;
+            break;
+          default:
+            catTag = 'APPAREL';
+            art = `
+              <path d="M90 70 L122 60 L140 90 L158 60 L190 70 L214 180 L186 186 L178 132 L176 206 L104 206 L102 132 L94 186 L66 180 Z" fill="${pal.main}" fill-opacity="0.92" stroke="#111111" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M122 60 L140 120 L158 60" fill="#FFFFFF" fill-opacity="0.94" stroke="#111111" stroke-width="1.4"/>
+              <line x1="140" y1="120" x2="140" y2="206" stroke="#FFFFFF" stroke-opacity="0.38" stroke-width="1.5"/>
+              <circle cx="148" cy="146" r="3" fill="${pal.accent}"/>
+              <circle cx="148" cy="168" r="3" fill="${pal.accent}"/>
+            `;
+            break;
+        }
+
+        return `
+          <svg viewBox="0 0 280 250" xmlns="http://www.w3.org/2000/svg" class="w-full h-full object-cover block select-none" role="img" aria-label="${esc(catTag)} 汎用イラスト">
+            <defs>
+              <linearGradient id="${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="${pal.bg1}"/>
+                <stop offset="100%" stop-color="${pal.bg2}"/>
+              </linearGradient>
+            </defs>
+            <rect width="280" height="250" fill="url(#${uid})"/>
+            <circle cx="140" cy="130" r="94" fill="#FFFFFF" fill-opacity="0.48"/>
+            ${art}
+            <text x="16" y="234" font-family="Inter, sans-serif" font-size="8" font-weight="700" letter-spacing="1.4" fill="#111111" fill-opacity="0.42">${catTag} · ILLUSTRATION</text>
+            <text x="264" y="234" text-anchor="end" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" fill="#9E7B42">No.${esc(item.code)}</text>
+          </svg>
+        `;
+      }
+
+      function buildQrSvg(seed) {
+        let h = 2166136261;
+        for (let i = 0; i < seed.length; i++) { h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619); }
+        const size = 15;
+        let cells = '';
+        const isF = (r, c) => (r < 5 && c < 5) || (r < 5 && c >= size - 5) || (r >= size - 5 && c < 5);
+        for (let r = 0; r < size; r++) {
+          for (let c = 0; c < size; c++) {
+            if (isF(r, c)) continue;
+            h = Math.imul(h ^ (r * 31 + c * 17), 16777619);
+            if ((h >>> 0) % 2 === 0) cells += `<rect x="${10 + c * 6}" y="${10 + r * 6}" width="5" height="5" rx="1" fill="#111111"/>`;
+          }
+        }
+        const f = (x, y) => `<rect x="${x}" y="${y}" width="26" height="26" rx="4" fill="none" stroke="#111111" stroke-width="4"/><rect x="${x + 7}" y="${y + 7}" width="12" height="12" rx="2" fill="#C8A46B"/>`;
+        return `<svg viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg" class="w-full h-full block"><rect width="110" height="110" rx="10" fill="#FFFFFF"/>${f(10, 10)}${f(74, 10)}${f(10, 74)}${cells}</svg>`;
+      }
+
+      // ===================================================================
+      // 8. タブ切替・お気に入り・最近見た履歴
+      // ===================================================================
+      function renderCurrentView() {
+        document.getElementById('catalogTotalCount').textContent = state.items.length;
+        document.getElementById('headerCountPill').textContent = `${state.items.length}+`;
+
+        if (state.activeTab === 'search') renderSearchTab();
+        else if (state.activeTab === 'directory') renderDirectoryTab();
+        else if (state.activeTab === 'favorites') renderFavoritesTab();
+        else if (state.activeTab === 'request') renderRequestsTab();
+      }
+
+      function switchTab(tab) {
+        state.activeTab = tab;
+        const map = { search: 'tabSearch', directory: 'tabDirectory', favorites: 'tabFavorites', request: 'tabRequest' };
+        Object.entries(map).forEach(([k, id]) => document.getElementById(id).classList.toggle('hidden', k !== tab));
+
+        document.querySelectorAll('.pc-nav-btn').forEach((b) => {
+          const act = b.getAttribute('data-nav') === tab;
+          b.className = act
+            ? 'pc-nav-btn relative px-4 py-1.5 rounded-full text-xs font-bold bg-ink text-white transition-all flex items-center gap-1.5'
+            : 'pc-nav-btn relative px-4 py-1.5 rounded-full text-xs font-semibold text-subink hover:text-ink transition-all flex items-center gap-1.5';
+        });
+        document.querySelectorAll('.sp-nav-btn').forEach((b) => {
+          const act = b.getAttribute('data-nav') === tab;
+          b.className = act
+            ? 'sp-nav-btn relative flex flex-col items-center justify-center gap-0.5 text-ink font-bold transition-colors'
+            : 'sp-nav-btn relative flex flex-col items-center justify-center gap-0.5 text-subink hover:text-ink font-medium transition-colors';
+        });
+
+        renderCurrentView();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function isFav(id) { return state.favorites.includes(id); }
+
+      function toggleFav(id, ev) {
+        if (ev) ev.stopPropagation();
+        if (isFav(id)) {
+          state.favorites = state.favorites.filter((x) => x !== id);
+          showToast('お気に入りから解除しました', 'info');
+        } else {
+          state.favorites.unshift(id);
+          showToast('お気に入りに保存しました', 'success');
+        }
+        writeStorage(STORAGE_KEYS.FAVORITES, state.favorites);
+        syncFavBadges();
+        renderCatalogGrid();
+        if (state.activeTab === 'favorites') renderFavoritesTab();
+        if (state.activeModalId === id) syncModalFavBtn(id);
+      }
+
+      function syncFavBadges() {
+        const count = state.favorites.length;
+        ['pcFavBadge', 'spFavBadge'].forEach((id) => {
+          const el = document.getElementById(id);
+          el.textContent = count;
+          el.classList.toggle('hidden', count === 0);
+        });
+      }
+
+      function pushRecent(id) {
+        state.recentIds = [id, ...state.recentIds.filter((x) => x !== id)].slice(0, 8);
+        writeStorage(STORAGE_KEYS.RECENT, state.recentIds);
+        renderRecentChips();
+      }
+
+      // ===================================================================
+      // 9. TAB 1: さがす（AUTO-CATCH・検索・多軸フィルター・グリッド）
+      // ===================================================================
+      function renderAutoCatchTicker() {
+        const sheetBadge = document.getElementById('sheetLiveTickerBadge');
+        if (state.sheetItems.length > 0) {
+          sheetBadge.classList.remove('hidden');
+          document.getElementById('sheetLiveTickerCount').textContent = state.sheetItems.length;
+        } else {
+          sheetBadge.classList.add('hidden');
+        }
+
+        const ticker = document.getElementById('autoCatchTicker');
+        const picks = [
+          ...state.sheetItems,
+          ...state.items.filter((x) => x.source !== 'sheet').slice(0, 10),
+        ].slice(0, 12);
+
+        ticker.innerHTML = picks.map((it) => `
+          <button type="button" data-tk="${esc(it.id)}" class="tk-card shrink-0 w-60 sm:w-64 bg-canvas hover:bg-champagne-soft/75 border ${it.source === 'sheet' ? 'border-rosegold/40' : 'border-hairline'} hover:border-champagne rounded-2xl p-2 flex items-center gap-2.5 text-left transition-all">
+            <div class="w-12 h-12 rounded-xl overflow-hidden bg-white border border-hairline shrink-0">${buildGenericFashionSvg(it)}</div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-1">
+                ${it.source === 'sheet'
+                  ? '<span class="px-1.5 py-0.2 rounded bg-rosegold text-white text-[8px] font-extrabold">SHEET LIVE</span>'
+                  : '<span class="px-1.5 py-0.2 rounded bg-ink text-champagne text-[8px] font-extrabold">NEW</span>'}
+                <span class="font-mono text-[9px] font-bold text-subink">No.${esc(it.code)}</span>
+                <span class="text-[9px] text-subink ml-auto">${esc(it.date)}</span>
+              </div>
+              <div class="text-[11px] font-extrabold text-ink truncate mt-0.5">${esc(it.group)} ${esc(it.member)}</div>
+              <div class="text-[10px] text-subink truncate">${esc(it.brand)} / ${esc(it.name)}</div>
+            </div>
+          </button>
+        `).join('');
+
+        ticker.querySelectorAll('.tk-card').forEach((b) => b.addEventListener('click', () => openItemDetail(b.getAttribute('data-tk'))));
+      }
+
+      function renderRecentChips() {
+        const row = document.getElementById('recentChipsRow');
+        const items = state.recentIds.map((id) => state.items.find((x) => x.id === id)).filter(Boolean);
+        if (items.length === 0) {
+          row.classList.add('hidden');
+          return;
+        }
+        row.classList.remove('hidden');
+        row.innerHTML =
+          `<span class="text-[10px] font-bold text-subink shrink-0 mr-0.5">最近見た:</span>` +
+          items.map((it) => `
+            <button type="button" data-rec="${esc(it.id)}" class="rec-chip shrink-0 px-2.5 py-1 rounded-full bg-canvas hover:bg-champagne-soft border border-hairline hover:border-champagne text-[11px] font-semibold text-ink transition-colors">
+              No.${esc(it.code)} ${esc(it.group)}
+            </button>
+          `).join('');
+        row.querySelectorAll('.rec-chip').forEach((b) => b.addEventListener('click', () => openItemDetail(b.getAttribute('data-rec'))));
+      }
+
+      function matchesSearch(item, qRaw) {
+        const q = (qRaw || '').trim().toLowerCase();
+        if (!q) return true;
+        const cleanNum = q.replace(/^(#|no\.?|番号)/i, '').trim();
+        const code = String(item.code || '').toLowerCase();
+        if (cleanNum && (code === cleanNum || code.replace(/^0+/, '') === cleanNum.replace(/^0+/, ''))) return true;
+
+        const catLabel = (CATEGORY_META.find((c) => c.key === item.category) || {}).label || '';
+        const scLabel = (SCENE_META[item.scene] || {}).label || '';
+        const genLabel = GEN_LABELS[item.generation] || '';
+
+        const hay = [
+          code, `no.${code}`, item.group, item.member, item.generation, genLabel,
+          item.gender, item.scene, scLabel, item.date, formatYM(item.date),
+          item.category, catLabel, item.brand, item.name, item.variant, item.sceneNote,
+        ].join(' ').toLowerCase();
+        return hay.includes(q) || (cleanNum && hay.includes(cleanNum));
+      }
+
+      function renderAutocomplete(query) {
+        const box = document.getElementById('autocompleteDropdown');
+        if (!query.trim()) { box.classList.add('hidden'); return; }
+        const hits = state.items.filter((i) => matchesSearch(i, query)).slice(0, 8);
+        if (hits.length === 0) {
+          box.innerHTML = `<div class="p-4 text-xs text-subink text-center">「${esc(query)}」に一致するアイテムはありません</div>`;
+          box.classList.remove('hidden');
+          return;
+        }
+        box.innerHTML = hits.map((it) => {
+          const sc = SCENE_META[it.scene] || { emoji: '', label: '' };
+          return `
+            <button type="button" data-ac="${esc(it.id)}" class="ac-row w-full px-3.5 py-2.5 flex items-center gap-3 hover:bg-canvas border-b border-hairline last:border-b-0 text-left transition-colors">
+              <div class="w-10 h-10 rounded-xl overflow-hidden bg-canvas border border-hairline shrink-0">${buildGenericFashionSvg(it)}</div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-1.5 py-0.5 rounded bg-ink text-champagne font-mono text-[10px] font-bold">No.${esc(it.code)}</span>
+                  ${it.source === 'sheet' ? '<span class="px-1.5 py-0.2 rounded bg-rosegold text-white text-[8px] font-bold">LIVE</span>' : ''}
+                  <span class="text-[10px] font-bold text-ink truncate">${esc(it.group)} ${esc(it.member)}</span>
+                  <span class="text-[10px] text-subink">${sc.emoji}${sc.label}</span>
+                </div>
+                <div class="text-xs font-bold text-ink truncate mt-0.5">${esc(it.brand)} / ${esc(it.name)}</div>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="text-xs font-extrabold text-ink">${formatYen(it.price)}</div>
+                <div class="text-[9px] text-rosegold font-bold">詳細 →</div>
+              </div>
+            </button>
+          `;
+        }).join('');
+        box.classList.remove('hidden');
+        box.querySelectorAll('.ac-row').forEach((b) => b.addEventListener('click', () => {
+          box.classList.add('hidden');
+          openItemDetail(b.getAttribute('data-ac'));
+        }));
+      }
+
+      function renderCategoryStrip() {
+        const strip = document.getElementById('categoryStrip');
+        strip.innerHTML = CATEGORY_META.map((c) => {
+          const act = state.selectedCategory === c.key;
+          return `
+            <button type="button" data-cat="${c.key}" class="cat-pill shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border transition-all ${
+              act ? 'bg-ink text-white border-ink shadow-2xs' : 'bg-white text-subink border-hairline hover:border-ink hover:text-ink'
+            }">
+              <span>${svgIcon(c.icon, `w-3.5 h-3.5 ${act ? 'text-champagne' : ''}`)}</span>
+              <span>${esc(c.label)}</span>
+            </button>
+          `;
+        }).join('');
+        strip.querySelectorAll('.cat-pill').forEach((b) => b.addEventListener('click', () => {
+          state.selectedCategory = b.getAttribute('data-cat');
+          state.visibleLimit = 24;
+          renderCategoryStrip();
+          renderCatalogGrid();
+        }));
+      }
+
+      function syncFilterPills() {
+        document.querySelectorAll('.scene-pill').forEach((b) => {
+          const act = b.getAttribute('data-scene') === state.selectedScene;
+          b.className = act
+            ? 'scene-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-ink text-white transition-all'
+            : 'scene-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white border border-hairline text-subink hover:border-ink hover:text-ink transition-all';
+        });
+        document.querySelectorAll('.year-pill').forEach((b) => {
+          const act = b.getAttribute('data-year') === state.selectedYear;
+          b.className = act
+            ? 'year-pill px-2.5 py-1 rounded-full text-[11px] font-bold bg-ink text-white transition-all'
+            : 'year-pill px-2.5 py-1 rounded-full text-[11px] font-semibold bg-canvas border border-hairline text-subink hover:border-ink transition-all';
+        });
+        document.querySelectorAll('.budget-pill').forEach((b) => {
+          const v = b.getAttribute('data-budget');
+          const act = v === state.selectedBudget;
+          if (v === 'high') {
+            b.className = act
+              ? 'budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold bg-champagne text-white transition-all'
+              : 'budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-champagne-soft border border-champagne/40 text-champagne-dark hover:border-champagne transition-all';
+          } else {
+            b.className = act
+              ? 'budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold bg-ink text-white transition-all'
+              : 'budget-pill shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-canvas border border-hairline text-subink hover:border-ink transition-all';
+          }
+        });
+      }
+
+      function getFilteredItems() {
+        const list = state.items.filter((it) => {
+          if (state.selectedScene !== 'all' && it.scene !== state.selectedScene) return false;
+          if (state.selectedCategory !== 'all' && it.category !== state.selectedCategory) return false;
+          if (state.selectedGroup && it.group !== state.selectedGroup) return false;
+
+          const [y, m] = String(it.date || '2026-11').split('-');
+          if (state.selectedYear !== 'all' && y !== state.selectedYear) return false;
+          if (state.selectedMonth !== 'all' && m !== state.selectedMonth) return false;
+
+          const effPrice = it.trialPrice > 0 && it.trialPrice < it.price ? it.trialPrice : it.price;
+          if (state.selectedBudget === '3000' && effPrice > 3000) return false;
+          if (state.selectedBudget === '5000' && effPrice > 5000) return false;
+          if (state.selectedBudget === '10000' && effPrice > 10000) return false;
+          if (state.selectedBudget === 'high' && it.price <= 10000) return false;
+
+          if (!matchesSearch(it, state.searchQuery)) return false;
+          return true;
+        });
+
+        list.sort((a, b) => {
+          if (state.sortBy === 'code') return Number(a.code) - Number(b.code);
+          if (state.sortBy === 'price-asc') return (a.price || 0) - (b.price || 0);
+          if (state.sortBy === 'price-desc') return (b.price || 0) - (a.price || 0);
+          // newest: Googleシート由来を最優先 → 着用年月降順 → sortOrder昇順
+          const srcDiff = (b.source === 'sheet' ? 1 : 0) - (a.source === 'sheet' ? 1 : 0);
+          if (srcDiff !== 0) return srcDiff;
+          const dateDiff = String(b.date).localeCompare(String(a.date));
+          if (dateDiff !== 0) return dateDiff;
+          return (a.sortOrder || 0) - (b.sortOrder || 0);
+        });
+        return list;
+      }
+
+      function buildProductCardHtml(item) {
+        const fav = isFav(item.id);
+        const sc = SCENE_META[item.scene] || { emoji: '✨', label: '' };
+        const catLabel = (CATEGORY_META.find((c) => c.key === item.category) || {}).label || item.category;
+        const isDirectOnly = item.mainCtaType === 'direct_official';
+        const hasBudgetAlt = Boolean(item.altName || item.altUrl || (item.trialPrice > 0 && item.trialPrice < item.price));
+
+        return `
+          <article data-id="${esc(item.id)}" class="prod-card group bg-white rounded-2xl border ${item.source === 'sheet' ? 'border-rosegold/40' : 'border-hairline'} overflow-hidden shadow-2xs hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer flex flex-col">
+            <div class="relative aspect-[14/12.5] bg-canvas overflow-hidden">
+              <div class="w-full h-full group-hover:scale-[1.03] transition-transform duration-300">${buildGenericFashionSvg(item)}</div>
+
+              <div class="absolute top-2 left-2 flex flex-col items-start gap-1">
+                <div class="flex items-center gap-1">
+                  <span class="px-2 py-0.5 rounded-md bg-ink/90 text-champagne font-mono text-[10px] font-extrabold">No.${esc(item.code)}</span>
+                  <span class="px-1.5 py-0.5 rounded-md bg-white/95 border border-hairline text-ink font-mono text-[9px] font-bold">${esc(item.date)}</span>
+                  ${item.source === 'sheet' ? '<span class="px-1.5 py-0.5 rounded-md bg-rosegold text-white text-[8px] font-extrabold">LIVE</span>' : ''}
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-white/95 border border-hairline text-ink text-[9px] font-bold">${sc.emoji} ${esc(sc.label)}</span>
+              </div>
+
+              <button type="button" data-fav="${esc(item.id)}" class="card-fav-btn absolute top-2 right-2 w-8 h-8 rounded-full ${fav ? 'bg-rosegold text-white' : 'bg-white/90 text-subink hover:text-rosegold'} backdrop-blur-xs flex items-center justify-center shadow-2xs transition-all active:scale-90" aria-label="お気に入り保存">
+                ${svgIcon('heart', 'w-4 h-4', fav)}
+              </button>
+
+              <div class="absolute bottom-2 left-2 right-2 flex items-center gap-1 flex-wrap">
+                ${isDirectOnly
+                  ? '<span class="px-1.5 py-0.2 rounded bg-white/95 border border-hairline text-ink text-[9px] font-bold">公式直リンク</span>'
+                  : '<span class="px-1.5 py-0.2 rounded bg-ink text-champagne text-[9px] font-extrabold">PR</span>'}
+                ${hasBudgetAlt ? '<span class="px-1.5 py-0.2 rounded bg-champagne text-white text-[9px] font-extrabold">お試し/再現</span>' : ''}
+              </div>
+            </div>
+
+            <div class="p-3 sm:p-3.5 flex-1 flex flex-col justify-between gap-2">
+              <div>
+                <div class="flex items-center justify-between gap-1 text-[9px]">
+                  <span class="px-1.5 py-0.2 rounded bg-canvas border border-hairline font-bold text-subink">${esc(GEN_LABELS[item.generation] || item.generation)}</span>
+                  <span class="text-subink font-medium">${esc(catLabel)}</span>
+                </div>
+                <div class="text-[11px] font-extrabold text-ink truncate mt-1">
+                  ${esc(item.group)} <span class="font-medium text-subink">${esc(item.member)}</span>
+                </div>
+                <div class="text-[10px] font-extrabold uppercase tracking-wider text-champagne-dark truncate mt-0.5">${esc(item.brand)}</div>
+                <h3 class="text-xs sm:text-sm font-bold text-ink leading-snug mt-0.5 line-clamp-2 group-hover:text-rosegold transition-colors">${esc(item.name)}</h3>
+              </div>
+
+              <div class="pt-2 border-t border-hairline flex items-end justify-between gap-1">
+                <div class="min-w-0">
+                  <div class="font-serif text-base sm:text-lg font-bold text-ink leading-none">${formatYen(item.price)}</div>
+                  ${item.trialPrice > 0 && item.trialPrice < item.price
+                    ? `<div class="text-[9px] sm:text-[10px] font-bold text-rosegold truncate mt-1">お試し/代替 ${formatYen(item.trialPrice)}〜</div>`
+                    : `<div class="text-[9px] text-subink mt-1 truncate">${esc(item.variant.split('/')[0])}</div>`}
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-ink text-white text-[9px] font-bold shrink-0">詳細</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      function bindCardClicks(container) {
+        container.querySelectorAll('.prod-card').forEach((c) => c.addEventListener('click', (e) => {
+          if (e.target.closest('.card-fav-btn')) return;
+          openItemDetail(c.getAttribute('data-id'));
+        }));
+        container.querySelectorAll('.card-fav-btn').forEach((b) => b.addEventListener('click', (e) => toggleFav(b.getAttribute('data-fav'), e)));
+      }
+
+      function renderCatalogGrid() {
+        const filtered = getFilteredItems();
+        const visible = filtered.slice(0, state.visibleLimit);
+
+        document.getElementById('filterStatusText').innerHTML =
+          `表示中 <strong class="text-ink font-extrabold">${visible.length}件</strong> / 該当 <strong class="text-ink font-extrabold">${filtered.length}件</strong>`;
+
+        const grpChip = document.getElementById('activeGroupChip');
+        if (state.selectedGroup) {
+          document.getElementById('activeGroupChipName').textContent = state.selectedGroup;
+          grpChip.classList.remove('hidden');
+        } else {
+          grpChip.classList.add('hidden');
+        }
+
+        const hasFilter = Boolean(
+          state.searchQuery.trim() || state.selectedScene !== 'all' || state.selectedCategory !== 'all' ||
+          state.selectedYear !== 'all' || state.selectedMonth !== 'all' || state.selectedBudget !== 'all' || state.selectedGroup
+        );
+        document.getElementById('resetFiltersBtn').classList.toggle('hidden', !hasFilter);
+
+        const grid = document.getElementById('catalogGrid');
+        const empty = document.getElementById('emptyStateBox');
+        const pag = document.getElementById('paginationWrap');
+
+        if (filtered.length === 0) {
+          grid.innerHTML = '';
+          empty.classList.remove('hidden');
+          pag.classList.add('hidden');
+          return;
+        }
+
+        empty.classList.add('hidden');
+        grid.innerHTML = visible.map(buildProductCardHtml).join('');
+        bindCardClicks(grid);
+
+        const rem = filtered.length - visible.length;
+        if (rem > 0) {
+          pag.classList.remove('hidden');
+          document.getElementById('remainingCount').textContent = rem;
+        } else {
+          pag.classList.add('hidden');
+        }
+      }
+
+      function renderSearchTab() {
+        renderAutoCatchTicker();
+        renderRecentChips();
+        renderCategoryStrip();
+        syncFilterPills();
+        renderCatalogGrid();
+      }
+
+      // ===================================================================
+      // 10. TAB 2: 推し・世代ディレクトリ
+      // ===================================================================
+      function renderDirectoryTab() {
+        const wrap = document.getElementById('directoryList');
+        const gens = ['5th', '4th', '2nd-3rd', 'solo'];
+
+        const blocks = gens.map((gKey) => {
+          const matched = state.items.filter(
+            (i) => i.generation === gKey && (state.dirGender === 'all' || i.gender === state.dirGender)
+          );
+          const byGroup = {};
+          matched.forEach((it) => {
+            if (!byGroup[it.group]) byGroup[it.group] = { gender: it.gender, items: [] };
+            byGroup[it.group].items.push(it);
+          });
+          const entries = Object.entries(byGroup).sort((a, b) => b[1].items.length - a[1].items.length);
+          if (entries.length === 0) return '';
+
+          return `
+            <div class="space-y-3">
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-xl bg-ink text-white text-xs font-extrabold">${esc(GEN_LABELS[gKey])}</span>
+                <span class="text-xs text-subink">${entries.length} アーティスト</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                ${entries.map(([grp, info]) => {
+                  const members = [...new Set(info.items.map((x) => x.member).filter(Boolean))].slice(0, 5).join(' / ');
+                  return `
+                    <button type="button" data-grp="${esc(grp)}" class="dir-grp-btn bg-white rounded-2xl p-4 border border-hairline hover:border-ink shadow-2xs hover:shadow-md transition-all text-left flex items-center justify-between gap-3">
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-1.5">
+                          <span class="px-2 py-0.5 rounded-full bg-canvas border border-hairline text-subink text-[10px] font-bold uppercase">${esc(info.gender)}</span>
+                          <span class="text-[10px] font-extrabold text-rosegold">${info.items.length} アイテム</span>
+                        </div>
+                        <h3 class="text-base font-extrabold text-ink mt-1 truncate">${esc(grp)}</h3>
+                        <p class="text-[11px] text-subink truncate mt-0.5">${esc(members)}</p>
+                      </div>
+                      <div class="flex -space-x-2 shrink-0">
+                        ${info.items.slice(0, 2).map((x) => `<div class="w-11 h-11 rounded-xl overflow-hidden border-2 border-white bg-canvas shadow-2xs">${buildGenericFashionSvg(x)}</div>`).join('')}
+                      </div>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        }).filter(Boolean);
+
+        wrap.innerHTML = blocks.length
+          ? blocks.join('')
+          : '<div class="bg-white rounded-3xl border border-hairline p-8 text-center text-xs text-subink">該当アーティストはありません。</div>';
+
+        wrap.querySelectorAll('.dir-grp-btn').forEach((b) => b.addEventListener('click', () => {
+          resetFiltersState();
+          state.selectedGroup = b.getAttribute('data-grp');
+          switchTab('search');
+        }));
+      }
+
+      // ===================================================================
+      // 11. TAB 3: お気に入り（定価 vs お試し・代替 節約計算）
+      // ===================================================================
+      function renderFavoritesTab() {
+        const list = state.favorites.map((id) => state.items.find((x) => x.id === id)).filter(Boolean);
+        const card = document.getElementById('favSavingsCard');
+        const grid = document.getElementById('favoritesGrid');
+        const empty = document.getElementById('favoritesEmpty');
+        const sBtn = document.getElementById('favShareBtn');
+        const mBtn = document.getElementById('favMemoCopyBtn');
+        const cBtn = document.getElementById('favClearAllBtn');
+
+        if (list.length === 0) {
+          card.classList.add('hidden');
+          sBtn.classList.add('hidden');
+          mBtn.classList.add('hidden');
+          cBtn.classList.add('hidden');
+          grid.innerHTML = '';
+          empty.classList.remove('hidden');
+          return;
+        }
+
+        empty.classList.add('hidden');
+        card.classList.remove('hidden');
+        sBtn.classList.remove('hidden');
+        mBtn.classList.remove('hidden');
+        cBtn.classList.remove('hidden');
+
+        const retailSum = list.reduce((s, it) => s + (Number(it.price) || 0), 0);
+        const trialSum = list.reduce((s, it) => {
+          const alt = it.trialPrice > 0 && it.trialPrice < it.price ? it.trialPrice : it.price;
+          return s + (Number(alt) || 0);
+        }, 0);
+
+        document.getElementById('favCountNum').textContent = list.length;
+        document.getElementById('favRetailSum').textContent = formatYen(retailSum);
+        document.getElementById('favTrialSum').textContent = formatYen(trialSum);
+        document.getElementById('favSavedAmount').textContent = `${formatYen(Math.max(0, retailSum - trialSum))} OFF`;
+
+        grid.innerHTML = list.map(buildProductCardHtml).join('');
+        bindCardClicks(grid);
+      }
+
+      // ===================================================================
+      // 12. TAB 4: リクエスト表示
+      // ===================================================================
+      function renderRequestsTab() {
+        const wrap = document.getElementById('fanRequestList');
+        if (state.requests.length === 0) {
+          wrap.innerHTML = '<div class="text-xs text-subink text-center py-4">まだリクエストはありません。推しの気になる着用アイテムをぜひお送りください。</div>';
+          return;
+        }
+        wrap.innerHTML = state.requests.slice(0, 12).map((r) => {
+          const sc = SCENE_META[r.scene] || { emoji: '✨', label: r.scene };
+          const catLabel = (CATEGORY_META.find((c) => c.key === r.category) || {}).label || r.category;
+          return `
+            <div class="p-3.5 rounded-2xl bg-canvas border border-hairline flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-2 py-0.5 rounded bg-ink text-white text-[9px] font-bold">${sc.emoji} ${esc(sc.label)}</span>
+                  <span class="px-2 py-0.5 rounded bg-white border border-hairline text-ink text-[9px] font-bold">${esc(catLabel)}</span>
+                  <span class="text-xs font-extrabold text-ink">${esc(r.group)}</span>
+                </div>
+                <p class="text-[11px] text-subink mt-1 break-all">${esc(r.memo)}</p>
+                <div class="text-[10px] text-neutral-400 mt-1">${esc(r.createdAt)}</div>
+              </div>
+              <span class="shrink-0 px-2.5 py-1 rounded-full bg-white border border-hairline text-[10px] font-bold text-champagne-dark">${esc(r.status)}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // ===================================================================
+      // 13. アイテム詳細モーダル（デュアルリンク＆ディープリンク）
+      // ===================================================================
+      function setModalTab(which) {
+        const bA = document.getElementById('mTabArt');
+        const bS = document.getElementById('mTabSns');
+        const pA = document.getElementById('mPanelArt');
+        const pS = document.getElementById('mPanelSns');
+        if (which === 'art') {
+          bA.className = 'py-2 rounded-xl text-xs font-bold bg-white text-ink shadow-2xs transition-all';
+          bS.className = 'py-2 rounded-xl text-xs font-semibold text-subink hover:text-ink transition-all';
+          pA.classList.remove('hidden'); pS.classList.add('hidden');
+        } else {
+          bS.className = 'py-2 rounded-xl text-xs font-bold bg-white text-ink shadow-2xs transition-all';
+          bA.className = 'py-2 rounded-xl text-xs font-semibold text-subink hover:text-ink transition-all';
+          pS.classList.remove('hidden'); pA.classList.add('hidden');
+        }
+      }
+
+      function syncModalFavBtn(id) {
+        const btn = document.getElementById('mFavBtn');
+        const fav = isFav(id);
+        btn.className = fav
+          ? 'w-8 h-8 rounded-full bg-rosegold text-white flex items-center justify-center transition-colors'
+          : 'w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors';
+        btn.innerHTML = svgIcon('heart', 'w-4 h-4', fav);
+      }
+
+      function handleOutboundClick(label, badge, url) {
+        if (state.settings.liveMode && url && /^https?:\/\//i.test(url)) {
+          window.open(url, '_blank', 'noopener,noreferrer');
+          showToast(`${label} を新規タブで開きました`, 'success', `${badge} | ${url}`);
+        } else {
+          showToast(
+            `【デモ確認モード】${badge}｜${label}`,
+            'info',
+            `遷移先URL: ${url || '未設定'}（本番遷移はロゴ5連タップ設定でONに切替可能）`
+          );
+        }
+      }
+
+      function openItemDetail(id) {
+        const item = state.items.find((x) => x.id === id);
+        if (!item) return;
+
+        state.activeModalId = item.id;
+        pushRecent(item.id);
+        setModalTab('art');
+        try { history.replaceState(null, '', `#item-${item.code}`); } catch (e) {}
+
+        const sc = SCENE_META[item.scene] || { emoji: '✨', label: item.scene };
+        const catLabel = (CATEGORY_META.find((c) => c.key === item.category) || {}).label || item.category;
+
+        document.getElementById('mCode').textContent = `No.${item.code}`;
+        document.getElementById('mSourceBadge').classList.toggle('hidden', item.source !== 'sheet');
+        document.getElementById('mSceneBadge').textContent = `${sc.emoji} ${sc.label}`;
+        document.getElementById('mDateBadge').textContent = formatYM(item.date);
+        syncModalFavBtn(item.id);
+
+        document.getElementById('mArtSlot').innerHTML = buildGenericFashionSvg(item);
+        document.getElementById('mSnsSceneNote').textContent = item.sceneNote;
+        document.getElementById('mSnsLinkBtn').href = item.snsEmbedUrl || 'https://www.instagram.com/';
+
+        document.getElementById('mArtistLine').textContent = `${item.group}${item.member ? '｜' + item.member : ''}（${GEN_LABELS[item.generation] || item.generation}）`;
+        document.getElementById('mCategoryBadge').textContent = catLabel;
+        document.getElementById('mBrand').textContent = item.brand;
+        document.getElementById('mName').textContent = item.name;
+        document.getElementById('mPrice').textContent = formatYen(item.price);
+        document.getElementById('mSceneNote').textContent = item.sceneNote;
+        document.getElementById('mVariant').textContent = item.variant;
+        document.getElementById('mDeepHash').textContent = `#item-${item.code}`;
+
+        const tpEl = document.getElementById('mTrialPriceLabel');
+        if (item.trialPrice > 0 && item.trialPrice < item.price) {
+          tpEl.textContent = `お試し・代替 ${formatYen(item.trialPrice)}〜`;
+          tpEl.classList.remove('hidden');
+        } else {
+          tpEl.classList.add('hidden');
+        }
+
+        // Primary CTA の表示制御（pr_sub / pr_ec vs direct_official）
+        const pWrap = document.getElementById('mPrimaryCtaWrap');
+        const pBtn = document.getElementById('mPrimaryCtaBtn');
+        const pBadge = document.getElementById('mPrimaryBadge');
+        const pLabel = document.getElementById('mPrimaryLabel');
+        const pSub = document.getElementById('mPrimarySub');
+        document.getElementById('mLiveModeHint').textContent = state.settings.liveMode ? '本番リンク遷移：ON' : '安全デモモード中';
+
+        if (item.mainCtaUrl || item.mainCtaLabel) {
+          pWrap.classList.remove('hidden');
+          const isOfficial = item.mainCtaType === 'direct_official';
+          if (isOfficial) {
+            pBtn.className = 'w-full p-4 rounded-2xl bg-white hover:bg-canvas text-ink border-2 border-ink text-left flex items-center justify-between gap-3 transition-all active:scale-[0.99]';
+            pBadge.textContent = '公式直リンク（提携外）';
+            pBadge.className = 'px-2 py-0.5 rounded bg-neutral-200 text-neutral-800 text-[9px] font-extrabold';
+            pSub.textContent = 'ブランド公式オンライン・提携外ショップへ直接アクセス';
+          } else {
+            pBtn.className = 'w-full p-4 rounded-2xl bg-ink hover:bg-neutral-800 text-white text-left flex items-center justify-between gap-3 transition-all active:scale-[0.99] shadow-sm';
+            pBadge.textContent = 'PR';
+            pBadge.className = 'px-2 py-0.5 rounded bg-rosegold text-white text-[9px] font-extrabold';
+            pSub.textContent = item.mainCtaType === 'pr_sub'
+              ? '月額お試し・少量から気軽に体験できるアフィリエイト提携ルート'
+              : '正規取扱・おすすめアフィリエイト提携ショップ';
+          }
+          pLabel.textContent = item.mainCtaLabel || 'ショップで見る';
+        } else {
+          pWrap.classList.add('hidden');
+        }
+
+        // Secondary Multi-Shop PR ボタン（Qoo10 / 楽天市場 / Amazon）
+        const multiWrap = document.getElementById('mMultiShopWrap');
+        const multiGrid = document.getElementById('mMultiShopGrid');
+        const shops = [];
+        if (item.qoo10Url) shops.push({ name: 'Qoo10', sub: 'メガ割・韓国公式', color: 'text-rosegold border-hairline hover:border-rosegold', url: item.qoo10Url });
+        if (item.rakutenUrl) shops.push({ name: '楽天市場', sub: 'ポイント還元', color: 'text-red-600 border-hairline hover:border-red-500', url: item.rakutenUrl });
+        if (item.amazonUrl) shops.push({ name: 'Amazon', sub: '最短翌日配送', color: 'text-amber-700 border-hairline hover:border-amber-600', url: item.amazonUrl });
+
+        if (shops.length > 0) {
+          multiWrap.classList.remove('hidden');
+          multiGrid.innerHTML = shops.map((s, idx) => `
+            <button type="button" data-ms="${idx}" class="ms-btn py-2.5 px-3 rounded-xl bg-white border ${s.color} text-left flex items-center justify-between gap-2 transition-all">
+              <div>
+                <div class="text-xs font-extrabold">${s.name} <span class="text-[9px] px-1 py-0.2 rounded bg-canvas text-subink">PR</span></div>
+                <div class="text-[9px] text-subink">${s.sub}</div>
+              </div>
+              <span class="text-subink">${svgIcon('external', 'w-3.5 h-3.5')}</span>
+            </button>
+          `).join('');
+          multiGrid.querySelectorAll('.ms-btn').forEach((b) => b.addEventListener('click', () => {
+            const s = shops[Number(b.getAttribute('data-ms'))];
+            if (s) handleOutboundClick(`${s.name}`, 'PR', s.url);
+          }));
+        } else {
+          multiWrap.classList.add('hidden');
+        }
+
+        // 予算1万円以下で再現・お試し（PR）カード
+        const altCard = document.getElementById('mAltCard');
+        const hasAlt = Boolean(item.altName || item.altUrl || (item.trialPrice > 0 && item.trialPrice < item.price));
+        if (hasAlt) {
+          altCard.classList.remove('hidden');
+          document.getElementById('mAltName').textContent = item.altName || `${item.brand} ${item.name} お試し・代替モデル`;
+          document.getElementById('mAltPrice').textContent = item.trialPrice > 0 ? `${formatYen(item.trialPrice)}〜` : '〜¥10,000';
+        } else {
+          altCard.classList.add('hidden');
+        }
+
+        const m = document.getElementById('itemDetailModal');
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+        document.getElementById('mScrollBody').scrollTop = 0;
+      }
+
+      function closeItemDetail() {
+        const m = document.getElementById('itemDetailModal');
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+        document.body.classList.remove('overflow-hidden');
+        state.activeModalId = null;
+        try {
+          if (window.location.hash.startsWith('#item-')) history.replaceState(null, '', window.location.pathname + window.location.search);
+        } catch (e) {}
+      }
+
+      // ===================================================================
+      // 14. 友達・家族シェアモーダル
+      // ===================================================================
+      function buildShareMessage(context, preset) {
+        const url = getBaseUrl();
+        if (context === 'favorites') {
+          const list = state.favorites.map((id) => state.items.find((x) => x.id === id)).filter(Boolean);
+          const lines = list.slice(0, 4).map((it) => `・${it.group} ${it.member}「${it.name}」(${formatYen(it.price)})`).join('\n');
+          const more = list.length > 4 ? `\n…ほか全${list.length}点` : '';
+          if (preset === 'family') return `今気になっているK-POPお揃いアイテムをまとめたよ！プレゼントや買い物の相談に見てみて🎁\n${lines}${more}\n${url}`;
+          if (preset === 'url') return `お気に入りリスト（${list.length}点）\n${url}`;
+          return `私の推しお揃い（ソンミンス）欲しいものリスト見て✨\n${lines}${more}\nSONMINSU ARCHIVEで詳しく見れるよ👇\n${url}\n#KPOP衣装 #ソンミンス`;
+        }
+        if (preset === 'family') return `K-POPアイドルの着用アイテムが探せる無料カタログ見つけたよ！プレゼント選びや買い物の参考に分かりやすいよ🎁\n${url}`;
+        if (preset === 'url') return url;
+        return `K-POP全世代（コンサート・空港・ドラマ・バラエティ）の着用アイテム500選＋新着自動更新の神サイト見つけた✨\nプチプラ再現や公式リンクも全部まとまってるよ👇\n${url}\n#KPOP衣装 #ソンミンス`;
+      }
+
+      function openShareModal(context = 'site') {
+        state.shareContext = context;
+        state.sharePreset = 'friend';
+        document.getElementById('shareModalHeading').textContent = context === 'favorites' ? 'お気に入りリストをシェア' : '友達・家族にシェア';
+        document.getElementById('shareCardDesc').textContent = context === 'favorites'
+          ? `保存中のお気に入り ${state.favorites.length} 点をまとめて共有できます`
+          : `K-POP全世代お揃いアイテム ${state.items.length} 選＋Googleシート自動公開カタログ`;
+        document.getElementById('shareQrSlot').innerHTML = buildQrSvg(getBaseUrl() + context);
+        syncSharePresetUI();
+        const m = document.getElementById('shareModal');
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+      }
+
+      function closeShareModal() {
+        const m = document.getElementById('shareModal');
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+      }
+
+      function syncSharePresetUI() {
+        document.querySelectorAll('.share-preset-btn').forEach((b) => {
+          const act = b.getAttribute('data-preset') === state.sharePreset;
+          b.className = act
+            ? 'share-preset-btn py-2 px-1.5 rounded-xl text-[11px] font-bold bg-ink text-white transition-all'
+            : 'share-preset-btn py-2 px-1.5 rounded-xl text-[11px] font-semibold text-subink hover:text-ink transition-all';
+        });
+        document.getElementById('shareTextOutput').value = buildShareMessage(state.shareContext, state.sharePreset);
+      }
+
+      function invokeNativeShare(title, text, url) {
+        if (navigator.share) {
+          navigator.share({ title, text, url }).catch(() => copyText(text.includes(url) ? text : `${text}\n${url}`, '紹介文＋URLをコピーしました！'));
+        } else {
+          copyText(text.includes(url) ? text : `${text}\n${url}`, '紹介文＋URLをコピーしました！');
+        }
+      }
+
+      function openLineShare(text) {
+        window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+        showToast('LINE共有画面を開きました', 'success');
+      }
+
+      function openXShare(text, url) {
+        const body = text.replace(url, '').trim();
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(body)}&url=${encodeURIComponent(url)}`, '_blank', 'noopener,noreferrer');
+        showToast('X（旧Twitter）ポスト画面を開きました', 'success');
+      }
+
+      // ===================================================================
+      // 15. 隠し5連タップ「Googleシート自動公開・同期設定」モーダル
+      // ===================================================================
+      function setupLogo5TapTrigger() {
+        let taps = 0;
+        let timer = null;
+        document.getElementById('brandLogoTrigger').addEventListener('click', () => {
+          taps += 1;
+          clearTimeout(timer);
+          if (taps >= 5) {
+            taps = 0;
+            openHiddenSyncModal();
+            return;
+          }
+          timer = setTimeout(() => {
+            if (taps === 1 && state.activeTab !== 'search') switchTab('search');
+            taps = 0;
+          }, 2500);
+        });
+      }
+
+      function updateLiveModeBadgeUI() {
+        const badge = document.getElementById('liveModeStatusBadge');
+        if (state.settings.liveMode) {
+          badge.textContent = 'ON（本番外部遷移）';
+          badge.className = 'px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-rosegold text-white';
+        } else {
+          badge.textContent = 'OFF（安全デモ）';
+          badge.className = 'px-2 py-0.5 rounded-full text-[9px] font-extrabold bg-amber-100 text-amber-800';
+        }
+      }
+
+      function updateSyncModalDiagUI() {
+        const box = document.getElementById('syncDiagBox');
+        const title = document.getElementById('syncDiagTitle');
+        const detail = document.getElementById('syncDiagDetail');
+        const timeEl = document.getElementById('syncDiagTime');
+        const codesEl = document.getElementById('syncDiagCodes');
+
+        timeEl.textContent = state.syncState.lastCheckedAt ? `確認: ${state.syncState.lastCheckedAt}` : '';
+        codesEl.classList.add('hidden');
+        codesEl.innerHTML = '';
+
+        if (state.syncState.status === 'loading') {
+          box.className = 'p-4 rounded-2xl border border-hairline bg-canvas text-ink space-y-1.5';
+          title.textContent = '🔄 Googleスプレッドシートへ接続中...';
+          detail.textContent = '最新のCSVデータを読み込んで公開済みアイテムを確認しています。';
+        } else if (state.syncState.status === 'success') {
+          box.className = 'p-4 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-950 space-y-2';
+          title.textContent = `✅ 連携成功：スプレッドシートから ${state.syncState.sheetCount} 件を自動公開中`;
+          detail.textContent = state.syncState.sheetCount > 0
+            ? 'シートの公開済み行がカタログ最上部および TODAY\'S AUTO-CATCH ティッカーに即時反映されています。'
+            : 'スプレッドシートへ正常に接続できました。現在 status=published（または空欄）の行は0件です。行を追加すると自動で公開されます。';
+          if (state.syncState.sheetCodes.length > 0) {
+            codesEl.classList.remove('hidden');
+            codesEl.innerHTML = state.syncState.sheetCodes.slice(0, 12).map((c) =>
+              `<span class="px-2 py-0.5 rounded bg-emerald-600 text-white font-mono text-[10px] font-bold">No.${esc(c)}</span>`
+            ).join('');
+          }
+        } else if (state.syncState.status === 'permission_error') {
+          box.className = 'p-4 rounded-2xl border border-amber-300 bg-amber-50 text-amber-950 space-y-2';
+          title.textContent = '⚠️ スプレッドシートの公開設定が必要です（500件内蔵カタログで稼働中）';
+          detail.innerHTML =
+            'お客様画面は500件の内蔵アーカイブで正常動作しています。Googleシートの新着行を自動公開するには、次の1ステップを行ってから「今すぐ再同期」を押してください：<br/>' +
+            '<strong class="block mt-1.5 text-ink">スプレッドシート右上の『共有』→『リンクを知っている全員（閲覧者）』に変更してください</strong>';
+        } else if (state.syncState.status === 'disabled') {
+          box.className = 'p-4 rounded-2xl border border-hairline bg-canvas text-subink space-y-1.5';
+          title.textContent = '⏸ 自動公開（autoPublish）は一時停止中です';
+          detail.textContent = '下のトグルをONにするか「今すぐ再同期」を押すとスプレッドシートを取得します。';
+        } else {
+          box.className = 'p-4 rounded-2xl border border-amber-200 bg-amber-50/70 text-amber-950 space-y-1.5';
+          title.textContent = '⚠️ シート取得でエラーが発生しました（内蔵500件を表示中）';
+          detail.innerHTML =
+            `詳細: ${esc(state.syncState.errorDetail || '接続エラー')}<br/>` +
+            '<strong class="block mt-1 text-ink">スプレッドシート右上の『共有』→『リンクを知っている全員（閲覧者）』に変更してください</strong>';
+        }
+      }
+
+      function openHiddenSyncModal() {
+        document.getElementById('setAutoPublishToggle').checked = Boolean(state.settings.autoPublish);
+        document.getElementById('setRefresh60Toggle').checked = Boolean(state.settings.autoRefresh60s);
+        document.getElementById('setFeedUrlInput').value = state.settings.feedUrl || DEFAULT_SETTINGS.feedUrl;
+        document.getElementById('setLiveModeToggle').checked = Boolean(state.settings.liveMode);
+        document.getElementById('openSheetDirectLink').href = SHEET_EDIT_URL;
+        updateLiveModeBadgeUI();
+        updateSyncModalDiagUI();
+
+        const m = document.getElementById('hiddenSyncModal');
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+      }
+
+      function closeHiddenSyncModal() {
+        const m = document.getElementById('hiddenSyncModal');
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+      }
+
+      function resetFiltersState() {
+        state.searchQuery = '';
+        state.selectedScene = 'all';
+        state.selectedCategory = 'all';
+        state.selectedYear = 'all';
+        state.selectedMonth = 'all';
+        state.selectedBudget = 'all';
+        state.selectedGroup = '';
+        state.visibleLimit = 24;
+        document.getElementById('instantSearchInput').value = '';
+        document.getElementById('clearSearchBtn').classList.add('hidden');
+        document.getElementById('autocompleteDropdown').classList.add('hidden');
+        document.getElementById('monthSelect').value = 'all';
+      }
+
+      function handleDeepLinkHash() {
+        const m = (window.location.hash || '').match(/^#item-(.+)$/i);
+        if (!m) return;
+        const target = decodeURIComponent(m[1]).trim().toLowerCase();
+        const hit = state.items.find((x) => {
+          const c = String(x.code).toLowerCase();
+          return c === target || c.replace(/^0+/, '') === target.replace(/^0+/, '');
+        });
+        if (hit) openItemDetail(hit.id);
+      }
+
+      // ===================================================================
+      // 16. 全イベントバインド
+      // ===================================================================
+      function bindEvents() {
+        setupLogo5TapTrigger();
+
+        document.querySelectorAll('[data-nav]').forEach((b) => b.addEventListener('click', () => switchTab(b.getAttribute('data-nav'))));
+
+        // 検索バー＆オートコンプリート
+        const sInp = document.getElementById('instantSearchInput');
+        const sClr = document.getElementById('clearSearchBtn');
+        const sDrop = document.getElementById('autocompleteDropdown');
+
+        sInp.addEventListener('input', (e) => {
+          state.searchQuery = e.target.value;
+          state.visibleLimit = 24;
+          sClr.classList.toggle('hidden', !state.searchQuery);
+          renderAutocomplete(state.searchQuery);
+          renderCatalogGrid();
+        });
+        sInp.addEventListener('focus', () => { if (state.searchQuery.trim()) renderAutocomplete(state.searchQuery); });
+        document.addEventListener('click', (e) => { if (!e.target.closest('#searchBoxContainer')) sDrop.classList.add('hidden'); });
+        sClr.addEventListener('click', () => {
+          sInp.value = '';
+          state.searchQuery = '';
+          sClr.classList.add('hidden');
+          sDrop.classList.add('hidden');
+          renderCatalogGrid();
+          sInp.focus();
+        });
+
+        // フィルター群
+        document.querySelectorAll('.scene-pill').forEach((b) => b.addEventListener('click', () => {
+          state.selectedScene = b.getAttribute('data-scene');
+          state.visibleLimit = 24;
+          syncFilterPills();
+          renderCatalogGrid();
+        }));
+        document.querySelectorAll('.year-pill').forEach((b) => b.addEventListener('click', () => {
+          state.selectedYear = b.getAttribute('data-year');
+          state.visibleLimit = 24;
+          syncFilterPills();
+          renderCatalogGrid();
+        }));
+        document.getElementById('monthSelect').addEventListener('change', (e) => {
+          state.selectedMonth = e.target.value;
+          state.visibleLimit = 24;
+          renderCatalogGrid();
+        });
+        document.querySelectorAll('.budget-pill').forEach((b) => b.addEventListener('click', () => {
+          state.selectedBudget = b.getAttribute('data-budget');
+          state.visibleLimit = 24;
+          syncFilterPills();
+          renderCatalogGrid();
+        }));
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+          state.sortBy = e.target.value;
+          renderCatalogGrid();
+        });
+        document.getElementById('clearGroupChipBtn').addEventListener('click', () => {
+          state.selectedGroup = '';
+          renderCatalogGrid();
+        });
+
+        const fullReset = () => { resetFiltersState(); renderSearchTab(); };
+        document.getElementById('resetFiltersBtn').addEventListener('click', fullReset);
+        document.getElementById('emptyResetBtn').addEventListener('click', fullReset);
+        document.getElementById('emptyGoRequestBtn').addEventListener('click', () => switchTab('request'));
+
+        // 24件ページネーション
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+          state.visibleLimit += 24;
+          renderCatalogGrid();
+        });
+        document.getElementById('scrollTopBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // TAB 2 性別フィルタ
+        document.querySelectorAll('.dir-gender-btn').forEach((b) => b.addEventListener('click', () => {
+          state.dirGender = b.getAttribute('data-dir-gender');
+          document.querySelectorAll('.dir-gender-btn').forEach((x) => {
+            const act = x.getAttribute('data-dir-gender') === state.dirGender;
+            x.className = act
+              ? 'dir-gender-btn px-3 py-1.5 rounded-full text-xs font-bold bg-ink text-white transition-all'
+              : 'dir-gender-btn px-3 py-1.5 rounded-full text-xs font-semibold text-subink hover:text-ink transition-all';
+          });
+          renderDirectoryTab();
+        }));
+
+        // TAB 3 お気に入り
+        document.getElementById('favBackToSearchBtn').addEventListener('click', () => switchTab('search'));
+        document.getElementById('favShareBtn').addEventListener('click', () => openShareModal('favorites'));
+        document.getElementById('favMemoCopyBtn').addEventListener('click', () => {
+          const list = state.favorites.map((id) => state.items.find((x) => x.id === id)).filter(Boolean);
+          const memo = '【SONMINSU ARCHIVE 買い物メモ】\n\n' + list.map((it, i) =>
+            `${i + 1}. No.${it.code} ${it.group} ${it.member}｜${it.brand} ${it.name}（${it.variant} / ${formatYen(it.price)}）\n   ${getDeepLink(it.code)}`
+          ).join('\n\n');
+          copyText(memo, '買い物メモをコピーしました！');
+        });
+        document.getElementById('favClearAllBtn').addEventListener('click', () => {
+          openConfirm('お気に入りを全解除', '保存しているお気に入りをすべて解除しますか？', () => {
+            state.favorites = [];
+            writeStorage(STORAGE_KEYS.FAVORITES, []);
+            syncFavBadges();
+            renderFavoritesTab();
+            showToast('お気に入りを全解除しました', 'info');
+          });
+        });
+
+        // TAB 4 ファン特定リクエスト
+        document.getElementById('fanRequestForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          state.requests.unshift({
+            id: 'req-' + Date.now(),
+            group: document.getElementById('reqGroup').value.trim(),
+            month: document.getElementById('reqMonth').value,
+            scene: document.getElementById('reqScene').value,
+            category: document.getElementById('reqCategory').value,
+            snsUrl: document.getElementById('reqSnsUrl').value.trim(),
+            memo: document.getElementById('reqMemo').value.trim(),
+            status: '受付中',
+            createdAt: nowStr(),
+          });
+          writeStorage(STORAGE_KEYS.REQUESTS, state.requests);
+          document.getElementById('fanRequestForm').reset();
+          document.getElementById('reqMonth').value = '2026-11';
+          renderRequestsTab();
+          showToast('特定リクエストを送信しました！', 'success');
+        });
+
+        // アイテム詳細モーダル
+        document.getElementById('mCloseBtn').addEventListener('click', closeItemDetail);
+        document.getElementById('itemDetailBackdrop').addEventListener('click', closeItemDetail);
+        document.getElementById('mTabArt').addEventListener('click', () => setModalTab('art'));
+        document.getElementById('mTabSns').addEventListener('click', () => setModalTab('sns'));
+        document.getElementById('mFavBtn').addEventListener('click', () => { if (state.activeModalId) toggleFav(state.activeModalId); });
+        document.getElementById('mCopyVariantBtn').addEventListener('click', () => {
+          const it = state.items.find((x) => x.id === state.activeModalId);
+          if (it) copyText(`${it.brand} ${it.name}（${it.variant}）`, '色番・型番をコピーしました！');
+        });
+        document.getElementById('mPrimaryCtaBtn').addEventListener('click', () => {
+          const it = state.items.find((x) => x.id === state.activeModalId);
+          if (!it) return;
+          const badge = it.mainCtaType === 'direct_official' ? '公式直リンク（提携外）' : 'PR';
+          handleOutboundClick(it.mainCtaLabel || it.brand, badge, it.mainCtaUrl);
+        });
+        document.getElementById('mAltBtn').addEventListener('click', () => {
+          const it = state.items.find((x) => x.id === state.activeModalId);
+          if (!it) return;
+          const url = it.altUrl || it.rakutenUrl || it.qoo10Url || it.mainCtaUrl;
+          handleOutboundClick(it.altName || '予算1万円以下再現・お試し', 'PR', url);
+        });
+
+        const getItemSharePayload = (it) => {
+          const url = getDeepLink(it.code);
+          const sc = SCENE_META[it.scene] || { label: '' };
+          return {
+            url,
+            text: `${it.group} ${it.member}（${formatYM(it.date)}・${sc.label}）着用✨\n${it.brand} / ${it.name}（${formatYen(it.price)}）\n詳細・ショップリンクはこちら👇\n${url}\n#KPOP衣装 #ソンミンス`,
+          };
+        };
+        document.getElementById('mShareNative').addEventListener('click', () => {
+          const it = state.items.find((x) => x.id === state.activeModalId);
+          if (!it) return;
+          const p = getItemSharePayload(it);
+          invokeNativeShare(`${it.group} ${it.member}｜${it.name}`, p.text, p.url);
+        });
+        document.getElementById('mShareLine').addEventListener('click', () => {
+          const it = state.items.find((x) => x.id === state.activeModalId);
+          if (it) openLineShare(getItemSharePayload(it).text);
+        });
+        document.getElementById('mShareX').addEventListener('click', () => {
+          const it = state.items.find((x) => x.id === state.activeModalId);
+          if (!it) return;
+          const p = getItemSharePayload(it);
+          openXShare(p.text, p.url);
+        });
+        document.getElementById('mShareCopy').addEventListener('click', () => {
+          const it = state.items.find((x) => x.id === state.activeModalId);
+          if (it) copyText(getDeepLink(it.code), `No.${it.code} の直リンクURLをコピーしました！`);
+        });
+
+        // 友達・家族シェアモーダル
+        ['headerShareBtn', 'footerShareBtn'].forEach((id) => document.getElementById(id).addEventListener('click', () => openShareModal('site')));
+        document.getElementById('closeShareBtn').addEventListener('click', closeShareModal);
+        document.getElementById('shareBackdrop').addEventListener('click', closeShareModal);
+        document.querySelectorAll('.share-preset-btn').forEach((b) => b.addEventListener('click', () => {
+          state.sharePreset = b.getAttribute('data-preset');
+          syncSharePresetUI();
+        }));
+        document.getElementById('copyShareBtn').addEventListener('click', () => copyText(document.getElementById('shareTextOutput').value, '紹介文＋URLをコピーしました！'));
+        document.getElementById('shareNativeBtn').addEventListener('click', () => invokeNativeShare('SONMINSU ARCHIVE', document.getElementById('shareTextOutput').value, getBaseUrl()));
+        document.getElementById('shareLineBtn').addEventListener('click', () => openLineShare(document.getElementById('shareTextOutput').value));
+        document.getElementById('shareXBtn').addEventListener('click', () => openXShare(document.getElementById('shareTextOutput').value, getBaseUrl()));
+
+        // ポリシーモーダル
+        const closePol = () => { const m = document.getElementById('policyModal'); m.classList.add('hidden'); m.classList.remove('flex'); };
+        document.getElementById('footerPolicyBtn').addEventListener('click', () => {
+          const m = document.getElementById('policyModal'); m.classList.remove('hidden'); m.classList.add('flex');
+        });
+        document.getElementById('closePolicyBtn').addEventListener('click', closePol);
+        document.getElementById('policyBackdrop').addEventListener('click', closePol);
+
+        // 隠し5連タップ同期設定モーダル
+        document.getElementById('closeHiddenSyncBtn').addEventListener('click', closeHiddenSyncModal);
+        document.getElementById('hiddenSyncBackdrop').addEventListener('click', closeHiddenSyncModal);
+        document.getElementById('syncNowBtn').addEventListener('click', () => syncFromGoogleSheet(true));
+        document.getElementById('restoreDefaultFeedBtn').addEventListener('click', () => {
+          document.getElementById('setFeedUrlInput').value = DEFAULT_SETTINGS.feedUrl;
+          showToast('既定のGoogleスプレッドシートURLを復元しました', 'info');
+        });
+        document.getElementById('saveFeedSettingsBtn').addEventListener('click', () => {
+          state.settings.autoPublish = document.getElementById('setAutoPublishToggle').checked;
+          state.settings.autoRefresh60s = document.getElementById('setRefresh60Toggle').checked;
+          state.settings.feedUrl = document.getElementById('setFeedUrlInput').value.trim() || DEFAULT_SETTINGS.feedUrl;
+          writeStorage(STORAGE_KEYS.SETTINGS, state.settings);
+          configureAutoRefreshTimer();
+          showToast('自動公開設定を保存しました', 'success');
+          syncFromGoogleSheet(true);
+        });
+        document.getElementById('setLiveModeToggle').addEventListener('change', (e) => {
+          state.settings.liveMode = e.target.checked;
+          writeStorage(STORAGE_KEYS.SETTINGS, state.settings);
+          updateLiveModeBadgeUI();
+          showToast(
+            state.settings.liveMode ? '本番外部リンク遷移モードをONにしました' : '安全なデモ確認モードに切り替えました',
+            state.settings.liveMode ? 'success' : 'info'
+          );
+        });
+
+        // 確認ダイアログ & Escキー
+        document.getElementById('confirmCancelBtn').addEventListener('click', closeConfirm);
+        document.getElementById('confirmBackdrop').addEventListener('click', closeConfirm);
+        document.getElementById('confirmOkBtn').addEventListener('click', () => {
+          if (typeof confirmOkFn === 'function') confirmOkFn();
+          closeConfirm();
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            if (state.activeModalId) closeItemDetail();
+            closeShareModal();
+            closePol();
+            closeHiddenSyncModal();
+            closeConfirm();
+          }
+        });
+
+        window.addEventListener('hashchange', handleDeepLinkHash);
+      }
+
+      // ===================================================================
+      // 17. 初期化（ストレージ読込 → 即座に500件表示 → Googleシート自動同期）
+      // ===================================================================
+      function init() {
+        hydrateIcons();
+
+        const savedSet = readStorage(STORAGE_KEYS.SETTINGS, null);
+        state.settings = { ...DEFAULT_SETTINGS, ...(savedSet || {}) };
+        state.favorites = readStorage(STORAGE_KEYS.FAVORITES, []);
+        const savedRec = readStorage(STORAGE_KEYS.RECENT, null);
+        state.recentIds = Array.isArray(savedRec) ? savedRec : ['item-001', 'item-002', 'item-003'];
+        state.requests = readStorage(STORAGE_KEYS.REQUESTS, []);
+        state.sheetItems = readStorage(STORAGE_KEYS.SHEET_CACHE, []);
+
+        rebuildMergedCatalog();
+        bindEvents();
+        syncFavBadges();
+        renderCurrentView();
+        handleDeepLinkHash();
+
+        // 起動時にGoogleスプレッドシートのCSVフィードを自動フェッチ
+        if (state.settings.autoPublish) {
+          syncFromGoogleSheet(false);
+          configureAutoRefreshTimer();
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>
